@@ -15,11 +15,12 @@ Check this HackMD from I2K2024 workshop: https://hackmd.io/w4DeWEDxRlKwIPTDCc77X
 
 Basic run
 ---
-1. Clone the repository
+## 1. Clone the repository
 ```
 git clone https://github.com/cellgeni/Image-ST.git
 ```
-2. Prepare the run.config file *
+## 2. Prepare the run.config file. 
+which specifies the running parameters and I/O of the job on HPC/Cloud environment. If local, it will use as much as it can in term of resources. *
 ```
 process {
         withName: CELLPOSE {
@@ -67,7 +68,9 @@ process {
         }
 }
 ```
-3. Prepare the parameters file (e.g. iss.yaml)
+## 3. Prepare the parameters file for the workflow (e.g. iss.yaml).
+Depending on whether your data is pre-registered. You will need two different types of config file:   
+### 3.1. Stitched, but not registered.
 ```
 images:
    - ['id': "test",
@@ -87,12 +90,37 @@ codebook:
 segmentation_method: "CELLPOSE" // or DEEPCELL or STARDIST or INSTANSEG
 
 out_dir: "./output"
+```    
+### 3.2. Stitched and registered sequentially (i.e. same cycle order as in the codebook)
 ```
-4. Run the pipeline
+cell_diameters: [30]
+chs_to_call_peaks: [27]
+codebook:
+	- [
+	      id: A02,
+	      "./codebook.csv",
+	      "./dummmy.txt",
+	]
+image_stack:
+	- [
+	    id: A02,
+	    "my-stitched-and-registered-hyper-stack.ome.tif",
+	]
+n_cycle_int:
+  - [id: A02, 6] # crucial for the decoding
+```     
+## 4. Run the pipeline
+Depending on the config file before you should use different pipeline entries:
+### 4.1 for stitched and non-registered run:
 ```
-nextflow run ./Image-ST/main.nf -profile lsf,singularity -c run.config -params-file iss.yaml -entry RUN_DECODING -resume
+nextflow run Image-ST/main.nf -profile lsf,singularity -entry RUN_DECODING_IMAGE_SERIES -params-file ./iss.yaml -c run.config -resume
 ```
-5. Check the output in the specified storeDir.
+### 4.2 for stitched and registered run:
+```
+nextflow run actions/Image-ST/main.nf -profile lsf,singularity -entry RUN_DECODING_IMAGE_STACK -params-file ./manifest.yaml -c run.config -resume
+```
+
+## 5. Check the output in the specified storeDir.
 
 Spin up Napari with napari-spatialdata plugin installed (https://spatialdata.scverse.org/projects/napari/en/latest/notebooks/spatialdata.html)
 
@@ -107,8 +135,7 @@ Interactive(data)
 
 *: You may leave the process block empty if you want to use the default parameters.
 
-FAQ
----
+# FAQ
 
 1. My HOME dir is full when running Singularity image conversion on HPC.
 
