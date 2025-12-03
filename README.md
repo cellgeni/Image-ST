@@ -106,6 +106,10 @@ image_stack:
 	    id: A02,
 	    "my-stitched-and-registered-hyper-stack.ome.tif",
 	]
+	- [
+	    id: A02,
+	    "my-other-stitched-and-registered-hyper-stack.ome.tif",
+	]
 n_cycle_int:
   - [id: A02, 6] # crucial for the decoding
 ```     
