@@ -38,26 +38,26 @@ process {
                 ext.args = "--feature_col 'Name' --expansion_in_pixels 30 --save_label_img False"
         }
 
-        withName: MERGE_OUTLINES {
+        withName: MERGEOUTLINES {
                 storeDir = "./output/merged_cellpose_segmentation/"
         }
 
-        withName: BIOINFOTONGLI_MICROALIGNER {
+        withName: IMAGING_MICROALIGNER {
                 memory = {50.Gb * task.attempt}
                 storeDir = "./output/registered_stacks"
         }
 
-        withName: BIOINFOTONGLI_TILEDSPOTIFLOW {
+        withName: IMAGING_TILEDSPOTIFLOW {
                 memory = {30.Gb * task.attempt}
                 storeDir = "./output/spotiflow_peaks/"
         }
 
-        withName: BIOINFOTONGLI_MERGEPEAKS {
+        withName: IMAGING_MERGEPEAKS {
                 memory = {50.Gb * task.attempt}
                 storeDir = "./output/spotiflow_peaks/"
         }
 
-        withName: BIOINFOTONGLI_CONCATENATEWKTS {
+        withName: IMAGING_CONCATENATEWKTS {
                 memory = {50.Gb * task.attempt}
                 storeDir = "./output/spotiflow_peaks/"
         }
