@@ -96,22 +96,14 @@ out_dir: "./output"
 cell_diameters: [30]
 chs_to_call_peaks: [27]
 codebook:
-	- [
-	      id: A02,
-	      "./codebook.csv",
-	      "./dummmy.txt",
-	]
+	- [id: A01, "./codebook_1.csv","./dummmy.txt",]
+	- [id: A02, "./codebook_2.csv","readout.csv",]
 image_stack:
-	- [
-	    id: A02,
-	    "my-stitched-and-registered-hyper-stack.ome.tif",
-	]
-	- [
-	    id: A02,
-	    "my-other-stitched-and-registered-hyper-stack.ome.tif",
-	]
+	- [id: A01, "my-stitched-and-registered-hyper-stack.ome.tif"]
+	- [id: A02, "my-other-stitched-and-registered-hyper-stack.ome.tif"]
 n_cycle_int:
-  - [id: A02, 6] # crucial for the decoding
+	- [id: A01, 6] # crucial for the decoding
+  	- [id: A02, 6] # crucial for the decoding
 ```     
 ## 4. Run the pipeline
 Depending on the config file before you should use different pipeline entries:
