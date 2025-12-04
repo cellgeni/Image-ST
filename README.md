@@ -73,7 +73,17 @@ Depending on whether your data is pre-registered. You will need two different ty
 ### 3.1. Stitched, but not registered.
 ```
 images:
-   - ['id': "test",
+   - ['id': "test_1",
+       [
+         "cycle1.ome.tiff",
+         "cycle2.ome.tiff",
+         "cycle3.ome.tiff",
+         "cycle4.ome.tiff",
+         "cycle5.ome.tiff",
+         "cycle6.ome.tiff",
+       ]
+     ]
+   - ['id': "test_2",
        [
          "cycle1.ome.tiff",
          "cycle2.ome.tiff",
@@ -84,9 +94,10 @@ images:
        ]
      ]
 cell_diameters: [30]
-chs_to_call_peaks: [1,2] // channels to call peaks, can be multiple
+chs_to_call_peaks: [1,2,3,4,6,7,8,9] // channels to call peaks, can be multiple
 codebook:
-  - ['id': "test", "./codebook.csv", "./dummy.txt"] // has to match the meta in `images` variable
+  	- ['id': "test_1", "./codebook.csv", "./dummy.txt"] // has to match the meta in `images` variable
+	- ['id': "test_2", "./codebook.csv", "./dummy.txt"] // has to match the meta in `images` variable
 segmentation_method: "CELLPOSE" // or DEEPCELL or STARDIST or INSTANSEG
 
 out_dir: "./output"
