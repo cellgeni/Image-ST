@@ -38,26 +38,26 @@ process {
                 ext.args = "--feature_col 'Name' --expansion_in_pixels 30 --save_label_img False"
         }
 
-        withName: MERGE_OUTLINES {
+        withName: MERGEOUTLINES {
                 storeDir = "./output/merged_cellpose_segmentation/"
         }
 
-        withName: BIOINFOTONGLI_MICROALIGNER {
+        withName: IMAGING_MICROALIGNER {
                 memory = {50.Gb * task.attempt}
                 storeDir = "./output/registered_stacks"
         }
 
-        withName: BIOINFOTONGLI_TILEDSPOTIFLOW {
+        withName: IMAGING_TILEDSPOTIFLOW {
                 memory = {30.Gb * task.attempt}
                 storeDir = "./output/spotiflow_peaks/"
         }
 
-        withName: BIOINFOTONGLI_MERGEPEAKS {
+        withName: IMAGING_MERGEPEAKS {
                 memory = {50.Gb * task.attempt}
                 storeDir = "./output/spotiflow_peaks/"
         }
 
-        withName: BIOINFOTONGLI_CONCATENATEWKTS {
+        withName: IMAGING_CONCATENATEWKTS {
                 memory = {50.Gb * task.attempt}
                 storeDir = "./output/spotiflow_peaks/"
         }
@@ -73,7 +73,17 @@ Depending on whether your data is pre-registered. You will need two different ty
 ### 3.1. Stitched, but not registered.
 ```
 images:
-   - ['id': "test",
+   - ['id': "test_1",
+       [
+         "cycle1.ome.tiff",
+         "cycle2.ome.tiff",
+         "cycle3.ome.tiff",
+         "cycle4.ome.tiff",
+         "cycle5.ome.tiff",
+         "cycle6.ome.tiff",
+       ]
+     ]
+   - ['id': "test_2",
        [
          "cycle1.ome.tiff",
          "cycle2.ome.tiff",
@@ -84,9 +94,10 @@ images:
        ]
      ]
 cell_diameters: [30]
-chs_to_call_peaks: [1,2] // channels to call peaks, can be multiple
+chs_to_call_peaks: [1,2,3,4,6,7,8,9] // channels to call peaks, can be multiple
 codebook:
-  - ['id': "test", "./codebook.csv", "./dummy.txt"] // has to match the meta in `images` variable
+  	- ['id': "test_1", "./codebook.csv", "./dummy.txt"] // has to match the meta in `images` variable
+	- ['id': "test_2", "./codebook.csv", "./dummy.txt"] // has to match the meta in `images` variable
 segmentation_method: "CELLPOSE" // or DEEPCELL or STARDIST or INSTANSEG
 
 out_dir: "./output"
@@ -96,18 +107,14 @@ out_dir: "./output"
 cell_diameters: [30]
 chs_to_call_peaks: [27]
 codebook:
-	- [
-	      id: A02,
-	      "./codebook.csv",
-	      "./dummmy.txt",
-	]
+	- [id: A01, "./codebook_1.csv","./dummmy.txt",]
+	- [id: A02, "./codebook_2.csv","readout.csv",]
 image_stack:
-	- [
-	    id: A02,
-	    "my-stitched-and-registered-hyper-stack.ome.tif",
-	]
+	- [id: A01, "my-stitched-and-registered-hyper-stack.ome.tif"]
+	- [id: A02, "my-other-stitched-and-registered-hyper-stack.ome.tif"]
 n_cycle_int:
-  - [id: A02, 6] # crucial for the decoding
+	- [id: A01, 6] # crucial for the decoding
+  	- [id: A02, 6] # crucial for the decoding
 ```     
 ## 4. Run the pipeline
 Depending on the config file before you should use different pipeline entries:
