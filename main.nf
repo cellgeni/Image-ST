@@ -18,6 +18,7 @@ params.chs_to_call_peaks = [1, 2]
 
 params.codebook = [["id": ''], "codebook.csv", "readouts.csv"]
 params.segmentation_method = "CELLPOSE"
+params.http_base_url = "http://webatlas.cog.sanger.ac.uk/s3/"
 
 
 workflow RUN_PEAK_COUNTING_IMAGE_SERIES {

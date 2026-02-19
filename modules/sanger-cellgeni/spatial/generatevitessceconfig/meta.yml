@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "spatial_generatevitessceconfig"
+description: write your description here
+keywords:
+  - sort
+  - example
+  - genomics
+tools:
+  - "spatial":
+      description: ""
+      homepage: ""
+      documentation: ""
+      tool_dev_url: ""
+      doi: ""
+      licence: null
+      identifier: null
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - sdata:
+        type: file
+        description: spatialdata object
+        pattern: "*.{sdata,zarr}"
+    - raw_name:
+        type: string
+        description: Name of the raw image data within the spatialdata object
+    - label_name:
+        type: string
+        description: Name of the label data within the spatialdata object
+    - table_name:
+        type: string
+        description: Name of the table data within the spatialdata object
+    - http_base_url:
+        type: string
+        description: Base URL for accessing the spatialdata object files over HTTP
+
+output:
+  bam:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - out_json:
+          type: file
+          description: Vitessce configuration file
+          pattern: "*.json"
+  versions:
+    - "versions.yml":
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+        ontologies:
+          - edam: "http://edamontology.org/format_3750" # YAML
+
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

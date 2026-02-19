@@ -64,6 +64,11 @@
             "branch": "main",
             "git_sha": "16d631eb9cd8180d6381c609374fbf3f52f4dfda",
             "installed_by": ["tiled_spotiflow"]
+          },
+          "spatial/generatevitessceconfig": {
+            "branch": "develop",
+            "git_sha": "faa1776813ed9353cd17675bb7757eb268ab7311",
+            "installed_by": ["modules"]
           }
         }
       },

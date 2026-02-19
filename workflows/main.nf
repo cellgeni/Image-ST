@@ -7,6 +7,7 @@ include { TILED_SPOTIFLOW } from '../subworkflows/sanger-cellgeni/tiled_spotiflo
 include { IMAGING_EXTRACTPEAKPROFILE as EXTRACT_PEAK_PROFILE } from '../modules/sanger-cellgeni/imaging/extractpeakprofile/main'
 include { IMAGING_POSTCODE as POSTCODE } from '../modules/sanger-cellgeni/imaging/postcode/main'
 include { TO_SPATIALDATA } from '../modules/local/to_spatialdata'
+include { SPATIAL_GENERATEVITESSCECONFIG } from '../modules/sanger-cellgeni/spatial/generatevitessceconfig/main'
 
 
 workflow DECODE_PEAKS_FROM_IMAGE_SERIES {
@@ -73,8 +74,7 @@ workflow EXTRACT_AND_DECODE {
     TILED_SPOTIFLOW(image_stack, channel.from(chs_to_call_peaks))
     // Run the decoding
     EXTRACT_PEAK_PROFILE(image_stack.join(TILED_SPOTIFLOW.out.spots_csv))
-    codebook = channel
-        .from(coding_references)
+    codebook = channel.from(coding_references)
         .map { meta, codebook, readouts ->
             [
                 meta,
@@ -87,7 +87,17 @@ workflow EXTRACT_AND_DECODE {
     TO_SPATIALDATA(
         POSTCODE.out.decoded_peaks.combine(TILED_SEGMENTATION.out.geojson, by: 0).combine(image_stack, by: 0)
     )
+    SPATIAL_GENERATEVITESSCECONFIG(
+        TO_SPATIALDATA.out.spatialdata.map { meta, sdata ->
+            def raw_name = "raw_image"
+            def label_name = "cell_labels"
+            def table_name = "table"
+            def http_base_url = params.http_base_url + "/${sdata.name}" ?: "http://webatlas.cog.sanger.ac.uk/s3/${sdata.name}"
+            return [meta, sdata, raw_name, label_name, table_name, http_base_url]
+        }
+    )
 
     emit:
     spatialdata = TO_SPATIALDATA.out.spatialdata // channel: [ val(meta), [ spatialdata ] ]
+    vitessce_config = SPATIAL_GENERATEVITESSCECONFIG.out.vitessce_config // channel: [ val(meta), path(vitessce_config) ]
 }
