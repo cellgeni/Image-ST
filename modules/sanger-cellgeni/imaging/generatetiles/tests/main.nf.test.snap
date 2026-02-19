@@ -11,7 +11,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,eddcd9c793b474b87d0333a1c90a5381"
+                    "versions.yml:md5,7d43da6f18b8407af631a1cb4835a1b0"
                 ],
                 "tile_coords": [
                     [
@@ -22,15 +22,15 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,eddcd9c793b474b87d0333a1c90a5381"
+                    "versions.yml:md5,7d43da6f18b8407af631a1cb4835a1b0"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.04.4"
+            "nextflow": "24.10.5"
         },
-        "timestamp": "2025-03-18T20:57:11.833074167"
+        "timestamp": "2025-10-23T14:05:56.250158392"
     },
     "mouse_heart - tiff": {
         "content": [
@@ -44,7 +44,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,eddcd9c793b474b87d0333a1c90a5381"
+                    "versions.yml:md5,7d43da6f18b8407af631a1cb4835a1b0"
                 ],
                 "tile_coords": [
                     [
@@ -55,14 +55,14 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,eddcd9c793b474b87d0333a1c90a5381"
+                    "versions.yml:md5,7d43da6f18b8407af631a1cb4835a1b0"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.04.4"
+            "nextflow": "24.10.5"
         },
-        "timestamp": "2025-03-18T20:57:04.817854347"
+        "timestamp": "2025-10-23T14:05:48.042989676"
     }
 }
