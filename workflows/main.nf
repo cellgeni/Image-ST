@@ -39,7 +39,7 @@ workflow SIMPLE_PEAK_COUNTING {
     image_stack
 
     main:
-    TILED_SEGMENTATION(image_stack, channel.from(params.segmentation_method))
+    TILED_SEGMENTATION(image_stack, params.segmentation_method)
     TILED_SPOTIFLOW(image_stack, params.chs_to_call_peaks)
     TO_SPATIALDATA(
         TILED_SPOTIFLOW.out.spots_csv.combine(TILED_SEGMENTATION.out.geojson, by: 0).combine(image_stack, by: 0)
