@@ -67,7 +67,7 @@
           },
           "spatial/generatevitessceconfig": {
             "branch": "develop",
-            "git_sha": "faa1776813ed9353cd17675bb7757eb268ab7311",
+            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
             "installed_by": ["modules"]
           }
         }
