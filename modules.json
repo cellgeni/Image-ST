@@ -37,7 +37,7 @@
           },
           "imaging/mergeoutlines": {
             "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+            "git_sha": "76c5daf3a5f0b95fefeea945570a04caec8d7b11",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/mergepeaks": {

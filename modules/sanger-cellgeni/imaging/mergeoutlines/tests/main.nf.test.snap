@@ -14,7 +14,7 @@
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,b47d0d0a777ffdcc4fc0c230c150c040"
+                    "versions.yml:md5,fe370145fc14c9517816dbbd5dfa273e"
                 ],
                 "multipoly_geojsons": [
                     [
@@ -28,7 +28,7 @@
                     
                 ],
                 "versions": [
-                    "versions.yml:md5,b47d0d0a777ffdcc4fc0c230c150c040"
+                    "versions.yml:md5,fe370145fc14c9517816dbbd5dfa273e"
                 ]
             }
         ],
@@ -36,7 +36,7 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.5"
         },
-        "timestamp": "2025-06-17T21:14:13.188373506"
+        "timestamp": "2026-02-26T10:13:20.702033604"
     },
     "mouse heart - wkt": {
         "content": [
@@ -58,7 +58,7 @@
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,b47d0d0a777ffdcc4fc0c230c150c040"
+                    "versions.yml:md5,fe370145fc14c9517816dbbd5dfa273e"
                 ],
                 "multipoly_geojsons": [
                     [
@@ -77,14 +77,14 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,b47d0d0a777ffdcc4fc0c230c150c040"
+                    "versions.yml:md5,fe370145fc14c9517816dbbd5dfa273e"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.04.4"
+            "nextflow": "24.10.5"
         },
-        "timestamp": "2025-03-15T10:04:43.098270886"
+        "timestamp": "2026-02-26T10:13:11.778903634"
     }
 }
