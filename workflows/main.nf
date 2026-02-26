@@ -8,6 +8,7 @@ include { IMAGING_EXTRACTPEAKPROFILE as EXTRACT_PEAK_PROFILE } from '../modules/
 include { IMAGING_POSTCODE as POSTCODE } from '../modules/sanger-cellgeni/imaging/postcode/main'
 include { TO_SPATIALDATA } from '../modules/local/to_spatialdata'
 include { SPATIAL_GENERATEVITESSCECONFIG } from '../modules/sanger-cellgeni/spatial/generatevitessceconfig/main'
+include { SPATIALDATA_EXPORTOMEROTABLE } from '../modules/sanger-cellgeni/spatialdata/exportomerotable/main'
 
 
 workflow DECODE_PEAKS_FROM_IMAGE_SERIES {
@@ -87,6 +88,7 @@ workflow EXTRACT_AND_DECODE {
     TO_SPATIALDATA(
         POSTCODE.out.decoded_peaks.combine(TILED_SEGMENTATION.out.geojson, by: 0).combine(image_stack, by: 0)
     )
+    SPATIALDATA_EXPORTOMEROTABLE(TO_SPATIALDATA.out.spatialdata)
     SPATIAL_GENERATEVITESSCECONFIG(
         TO_SPATIALDATA.out.spatialdata.map { meta, sdata ->
             def raw_name = "raw_image"

@@ -1,0 +1,59 @@
+// nf-core modules test spatialdata/exportomerotable
+nextflow_process {
+
+    name "Test Process SPATIALDATA_EXPORTOMEROTABLE"
+    script "../main.nf"
+    process "SPATIALDATA_EXPORTOMEROTABLE"
+
+    tag "modules"
+    tag "modules_sangercellgeni"
+    tag "spatialdata"
+    tag "spatialdata/exportomerotable"
+
+    test("spatialdata exportomerotable - csv") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    file(params.modules_testdata_base_path + 'spatialdata.sdata.zarr/', checkIfExists: true),
+                ]
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    test("spatialdata exportomerotable - csv - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ],
+                    file(params.modules_testdata_base_path + 'spatialdata.sdata.zarr/', checkIfExists: true),
+                ]
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assertAll(
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}
