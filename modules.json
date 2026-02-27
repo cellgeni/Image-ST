@@ -65,6 +65,11 @@
             "git_sha": "e020ecfe340a0b22a0aad36db6ffa631dd0a3275",
             "installed_by": ["tiled_spotiflow"]
           },
+          "omero/importsegmentation": {
+            "branch": "develop",
+            "git_sha": "993465a5ad2ffa8dd08af8549991fe641364995b",
+            "installed_by": ["modules"]
+          },
           "spatial/generatevitessceconfig": {
             "branch": "develop",
             "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
