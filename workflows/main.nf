@@ -9,6 +9,7 @@ include { IMAGING_POSTCODE as POSTCODE } from '../modules/sanger-cellgeni/imagin
 include { TO_SPATIALDATA } from '../modules/local/to_spatialdata'
 include { SPATIAL_GENERATEVITESSCECONFIG } from '../modules/sanger-cellgeni/spatial/generatevitessceconfig/main'
 include { SPATIALDATA_EXPORTOMEROTABLE } from '../modules/sanger-cellgeni/spatialdata/exportomerotable/main'
+include { OMERO_IMPORTSEGMENTATION } from '../modules/sanger-cellgeni/omero/importsegmentation/main'
 
 
 workflow DECODE_PEAKS_FROM_IMAGE_SERIES {
@@ -89,6 +90,19 @@ workflow EXTRACT_AND_DECODE {
         POSTCODE.out.decoded_peaks.combine(TILED_SEGMENTATION.out.geojson, by: 0).combine(image_stack, by: 0)
     )
     SPATIALDATA_EXPORTOMEROTABLE(TO_SPATIALDATA.out.spatialdata)
+    if (params.importsegmentation) {
+        def importsegCellsInput = SPATIALDATA_EXPORTOMEROTABLE.out.cells_csv
+            .combine(channel.from(params.importsegmentation), by: 0)
+            .filter { meta, csv, image_id, host, table_name, roi_name, out_dir ->
+                [image_id, host, table_name + "_${segmentation_method}", roi_name + "_${segmentation_method}", out_dir].every { it != null && it.toString().trim() }
+            }
+        def importsegTranscriptsInput = SPATIALDATA_EXPORTOMEROTABLE.out.transcripts_csv
+            .combine(channel.from(params.importsegmentation), by: 0)
+            .filter { meta, csv, image_id, host, table_name, roi_name, out_dir ->
+                [image_id, host, table_name + "_transcripts", roi_name + "_transcripts", out_dir].every { it != null && it.toString().trim() }
+            }
+        OMERO_IMPORTSEGMENTATION(importsegCellsInput.mix(importsegTranscriptsInput))
+    }
     SPATIAL_GENERATEVITESSCECONFIG(
         TO_SPATIALDATA.out.spatialdata.map { meta, sdata ->
             def raw_name = "raw_image"
