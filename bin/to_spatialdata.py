@@ -78,11 +78,9 @@ def main(
     )
 
     if transcripts.endswith(".csv"):
-        spots = pd.read_csv(transcripts, header=0, sep=",")[[y_col, x_col, feature_col]]
+        spots = pd.read_csv(transcripts, header=0, sep=",")
     elif transcripts.endswith(".tsv"):
-        spots = pd.read_csv(transcripts, header=0, sep="\t")[
-            [y_col, x_col, feature_col]
-        ]
+        spots = pd.read_csv(transcripts, header=0, sep="\t")
     elif transcripts.endswith(".wkt"):
         # Assuming that the wkt file contains a multipoint geometry
         with open(transcripts, "r") as f:
@@ -95,6 +93,13 @@ def main(
         spots[feature_col] = "spot"
     else:
         raise ValueError("Format not recognized. Please provide a csv, tsv or wkt file")
+
+    required_columns = {y_col, x_col, feature_col}
+    missing_columns = required_columns.difference(spots.columns)
+    if missing_columns:
+        raise ValueError(
+            f"Missing required columns in transcripts file: {sorted(missing_columns)}"
+        )
 
     logger.info("Load cell polygons from file")
     cell_shape = load_shapemodel(cells)
@@ -169,7 +174,7 @@ def main(
 
     points = PointsModel.parse(
         spots,
-        coordinates={"x": "x_int", "y": "y_int"},
+        coordinates={"x": x_col, "y": y_col},
         feature_key=feature_col,
         # instance_key=instance_key,
         transformations={"global": Identity()},
