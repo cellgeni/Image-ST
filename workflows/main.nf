@@ -92,12 +92,12 @@ workflow EXTRACT_AND_DECODE {
     SPATIALDATA_EXPORTOMEROTABLE(TO_SPATIALDATA.out.spatialdata)
     if (params.importsegmentation) {
         def importsegCellsInput = SPATIALDATA_EXPORTOMEROTABLE.out.cells_csv
-            .combine(channel.from(params.importsegmentation), by: 0)
+            .combine(Channel.from(params.importsegmentation), by: 0)
             .filter { meta, csv, image_id, host, table_name, roi_name, out_dir ->
                 [image_id, host, table_name + "_${segmentation_method}", roi_name + "_${segmentation_method}", out_dir].every { it != null && it.toString().trim() }
             }
         def importsegTranscriptsInput = SPATIALDATA_EXPORTOMEROTABLE.out.transcripts_csv
-            .combine(channel.from(params.importsegmentation), by: 0)
+            .combine(Channel.from(params.importsegmentation), by: 0)
             .filter { meta, csv, image_id, host, table_name, roi_name, out_dir ->
                 [image_id, host, table_name + "_transcripts", roi_name + "_transcripts", out_dir].every { it != null && it.toString().trim() }
             }
