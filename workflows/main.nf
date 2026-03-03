@@ -94,7 +94,7 @@ workflow EXTRACT_AND_DECODE {
         def importsegCellsInput = SPATIALDATA_EXPORTOMEROTABLE.out.cells_csv
             .combine(Channel.from(params.importsegmentation), by: 0)
             .filter { meta, csv, image_id, host, table_name, roi_name, out_dir ->
-                [image_id, host, table_name + "_" + segmentation_method, roi_name + "_" + segmentation_method, out_dir].every { it != null && it.toString().trim() }
+                [image_id, host, table_name, roi_name, out_dir].every { it != null && it.toString().trim() }
             }
             .map { meta, csv, image_id, host, table_name, roi_name, out_dir ->
                 [meta, csv, image_id, host, table_name + "_" + segmentation_method, roi_name + "_" + segmentation_method, out_dir]
@@ -102,7 +102,7 @@ workflow EXTRACT_AND_DECODE {
         def importsegTranscriptsInput = SPATIALDATA_EXPORTOMEROTABLE.out.transcripts_csv
             .combine(Channel.from(params.importsegmentation), by: 0)
             .filter { meta, csv, image_id, host, table_name, roi_name, out_dir ->
-                [image_id, host, table_name + "_transcripts", roi_name + "_transcripts", out_dir].every { it != null && it.toString().trim() }
+                [image_id, host, table_name, roi_name, out_dir].every { it != null && it.toString().trim() }
             }
             .map { meta, csv, image_id, host, table_name, roi_name, out_dir ->
                 [meta, csv, image_id, host, table_name + "_transcripts", roi_name + "_transcripts", out_dir]
