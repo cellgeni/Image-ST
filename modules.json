@@ -72,7 +72,7 @@
           },
           "spatial/generatevitessceconfig": {
             "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+            "git_sha": "3760eae3a82921a435a3a8feb9d3de41d057e91d",
             "installed_by": ["modules"]
           },
           "spatialdata/exportomerotable": {

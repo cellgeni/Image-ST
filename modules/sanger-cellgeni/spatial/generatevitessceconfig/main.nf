@@ -4,8 +4,8 @@ process SPATIAL_GENERATEVITESSCECONFIG {
 
     // conda "${moduleDir}/environment.yml"
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? 'vitessce_config:latest'
-        : 'vitessce_config:latest'}"
+        ? 'quay.io/cellgeni/vitessce_config:latest'
+        : 'quay.io/cellgeni/vitessce_config:latest'}"
 
     input:
     tuple val(meta), path(sdata), val(raw_name), val(label_name), val(table_name), val(http_base_url)
