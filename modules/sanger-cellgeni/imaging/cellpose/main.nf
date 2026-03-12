@@ -22,6 +22,7 @@ process IMAGING_CELLPOSE {
     prefix = "${meta.id}-${x_min}_${y_min}_${x_max}_${y_max}-diam_${cell_diameter}"
     def args = task.ext.args ?: ''
     """
+    export PYTHONNOUSERSITE=1
     cellpose_seg.py run \
         --image ${image} \
         --x_min ${x_min} \
