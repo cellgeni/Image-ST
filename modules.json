@@ -7,7 +7,7 @@
         "sanger-cellgeni": {
           "imaging/cellpose": {
             "branch": "develop",
-            "git_sha": "aacb5514e4422972ceb92cb64aaa9c169ccf9261",
+            "git_sha": "786a78363e8e46721bc9a4a95111a83e5c3fec3c",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/concatenatewkts": {
@@ -27,7 +27,7 @@
           },
           "imaging/generatetiles": {
             "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+            "git_sha": "786a78363e8e46721bc9a4a95111a83e5c3fec3c",
             "installed_by": ["tiled_segmentation", "tiled_spotiflow"]
           },
           "imaging/instanseg": {
@@ -37,7 +37,7 @@
           },
           "imaging/mergeoutlines": {
             "branch": "develop",
-            "git_sha": "76c5daf3a5f0b95fefeea945570a04caec8d7b11",
+            "git_sha": "786a78363e8e46721bc9a4a95111a83e5c3fec3c",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/mergepeaks": {
@@ -67,7 +67,7 @@
           },
           "omero/importsegmentation": {
             "branch": "develop",
-            "git_sha": "993465a5ad2ffa8dd08af8549991fe641364995b",
+            "git_sha": "05bb33ce27cc5aa0043cadec00d285b1614ed26d",
             "installed_by": ["modules"]
           },
           "spatial/generatevitessceconfig": {
