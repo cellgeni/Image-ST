@@ -4,9 +4,7 @@ process OMERO_IMPORTSEGMENTATION {
     cpus 30
 
     // conda "${moduleDir}/environment.yml"
-    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? 'quay.io/cellgeni/roi_convert_ngff:0.6.2'
-        : 'quay.io/cellgeni/roi_convert_ngff:0.6.2'}"
+    container "quay.io/cellgeni/roi_convert_ngff:0.6.2"
 
     input:
     tuple val(meta), path(csv), val(image_id), val(host), val(table_name), val(roi_name), val(out_dir)
@@ -16,7 +14,7 @@ process OMERO_IMPORTSEGMENTATION {
 
     output:
     tuple val(meta), path("*.importsegmentation.done.txt"), emit: done
-    path "versions.yml", emit: versions
+    tuple val("${task.process}"), val('ROI_Converter_NGFF'), val('0.6.2'), emit: versions, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -46,26 +44,6 @@ process OMERO_IMPORTSEGMENTATION {
         roi_emitted="unknown"
     fi
     printf "%s\\n" "\${roi_emitted}" > ${prefix}.importsegmentation.done.txt
-
-    python - <<'PY' > versions.yml
-    import platform
-    import subprocess
-
-    version = "unknown"
-    for cmd in (["ROI_Converter_NGFF", "--version"], ["ROI_Converter_NGFF", "-h"]):
-        try:
-            proc = subprocess.run(cmd, capture_output=True, text=True, check=False)
-            text = (proc.stdout or proc.stderr).strip()
-            if text:
-                version = text.splitlines()[0]
-                break
-        except Exception:
-            pass
-
-    print("${task.process}:")
-    print(f"  python: {platform.python_version()}")
-    print(f"  ROI_Converter_NGFF: {version}")
-    PY
     """
 
     stub:
@@ -73,13 +51,6 @@ process OMERO_IMPORTSEGMENTATION {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     echo ${args}
-
-    printf "%s\\n" "${roi_id}" > ${prefix}.importsegmentation.done.txt
-
-    cat <<-EOF > versions.yml
-    ${task.process}:
-      python: stub
-      ROI_Converter_NGFF: stub
-    EOF
+    printf "%s\\n" "unknown" > ${prefix}.importsegmentation.done.txt
     """
 }
