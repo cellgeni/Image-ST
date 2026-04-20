@@ -13,9 +13,11 @@ from spatialdata.transformations.transformations import Identity
 import pandas as pd
 import anndata
 from shapely import from_wkt, from_geojson, MultiPoint, MultiPolygon
+from shapely.geometry import Polygon
 from shapely.geometry.collection import GeometryCollection
 import numpy as np
-from skimage.measure import regionprops_table
+from skimage.segmentation import expand_labels
+from skimage.measure import regionprops_table, regionprops, find_contours
 
 from collections.abc import Mapping
 from types import MappingProxyType
@@ -103,12 +105,6 @@ def main(
     logger.info("Load cell polygons from file")
     cell_shape = load_shapemodel(cells)
 
-    if expansion_in_pixels > 0:
-        logger.info(f"Expanding cell shapes by {expansion_in_pixels} pixels before rasterization")
-        expanded = cell_shape.copy()
-        expanded["geometry"] = expanded["geometry"].buffer(expansion_in_pixels)
-        cell_shape = ShapesModel.parse(expanded)
-
     sdata = SpatialData(
         shapes={"cell_shapes": cell_shape},
     )
@@ -124,7 +120,22 @@ def main(
     sdata["raw_image"] = raw_image_parsed
 
     logger.info("Assigning spots to cells")
-    lab_img = np.array(cell_labels.data)
+    if expansion_in_pixels > 0:
+        lab_img = expand_labels(np.array(cell_labels.data), expansion_in_pixels)
+        mask = np.squeeze(lab_img).astype(np.int32)
+        expanded_polys = {}
+        for prop in regionprops(mask):
+            r0, c0, r1, c1 = prop.bbox
+            contours = find_contours((mask[r0:r1, c0:c1] == prop.label).astype(np.uint8), level=0.5)
+            if not contours:
+                continue
+            contour = max(contours, key=len)
+            expanded_polys[prop.label] = Polygon([(c[1] + c0, c[0] + r0) for c in contour])
+        ids = sorted(expanded_polys.keys())
+        expanded_df = GeoDataFrame({"instance_id": ids, "geometry": [expanded_polys[i] for i in ids]})
+        sdata["cell_shapes_expanded"] = ShapesModel.parse(expanded_df)
+    else:
+        lab_img = np.array(cell_labels.data)
     props_dict = regionprops_table(
         np.squeeze(lab_img).astype(np.int32),
         intensity_image=np.array(raw_image).transpose(1, 2, 0),
