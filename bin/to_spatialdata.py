@@ -15,7 +15,6 @@ import anndata
 from shapely import from_wkt, from_geojson, MultiPoint, MultiPolygon
 from shapely.geometry.collection import GeometryCollection
 import numpy as np
-from skimage.segmentation import expand_labels
 from skimage.measure import regionprops_table
 
 from collections.abc import Mapping
@@ -104,6 +103,12 @@ def main(
     logger.info("Load cell polygons from file")
     cell_shape = load_shapemodel(cells)
 
+    if expansion_in_pixels > 0:
+        logger.info(f"Expanding cell shapes by {expansion_in_pixels} pixels before rasterization")
+        expanded = cell_shape.copy()
+        expanded["geometry"] = expanded["geometry"].buffer(expansion_in_pixels)
+        cell_shape = ShapesModel.parse(expanded)
+
     sdata = SpatialData(
         shapes={"cell_shapes": cell_shape},
     )
@@ -119,10 +124,7 @@ def main(
     sdata["raw_image"] = raw_image_parsed
 
     logger.info("Assigning spots to cells")
-    if expansion_in_pixels > 0:
-        lab_img = expand_labels(np.array(cell_labels.data), expansion_in_pixels)
-    else:
-        lab_img = np.array(cell_labels.data)
+    lab_img = np.array(cell_labels.data)
     props_dict = regionprops_table(
         np.squeeze(lab_img).astype(np.int32),
         intensity_image=np.array(raw_image).transpose(1, 2, 0),
