@@ -126,11 +126,13 @@ def main(
         expanded_polys = {}
         for prop in regionprops(mask):
             r0, c0, r1, c1 = prop.bbox
-            contours = find_contours((mask[r0:r1, c0:c1] == prop.label).astype(np.uint8), level=0.5)
+            r0p = max(0, r0 - 1); c0p = max(0, c0 - 1)
+            r1p = min(mask.shape[0], r1 + 1); c1p = min(mask.shape[1], c1 + 1)
+            contours = find_contours((mask[r0p:r1p, c0p:c1p] == prop.label).astype(np.uint8), level=0.5)
             if not contours:
                 continue
             contour = max(contours, key=len)
-            expanded_polys[prop.label] = Polygon([(c[1] + c0, c[0] + r0) for c in contour])
+            expanded_polys[prop.label] = Polygon([(c[1] + c0p, c[0] + r0p) for c in contour])
         ids = sorted(expanded_polys.keys())
         expanded_df = GeoDataFrame({"instance_id": ids, "geometry": [expanded_polys[i] for i in ids]})
         sdata["cell_shapes_expanded"] = ShapesModel.parse(expanded_df)
