@@ -49,3 +49,21 @@ workflow RUN_DECODING_IMAGE_STACK {
         n_cycle,
     )
 }
+
+workflow {
+    if (params.workflow == "peak_counting_image_series") {
+        RUN_PEAK_COUNTING_IMAGE_SERIES()
+    }
+    else if (params.workflow == "peak_counting_image_stack") {
+        RUN_PEAK_COUNTING_IMAGE_STACK()
+    }
+    else if (params.workflow == "decoding_image_series") {
+        RUN_DECODING_IMAGE_SERIES()
+    }
+    else if (params.workflow == "decoding_image_stack") {
+        RUN_DECODING_IMAGE_STACK()
+    }
+    else {
+        println("Invalid workflow specified: ${params.workflow}")
+    }
+}
