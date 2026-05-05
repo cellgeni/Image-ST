@@ -5,6 +5,7 @@
 """
 This script will slice the image in XY dimension and save the slices coordinates in json files
 """
+
 import fire
 import os
 from cellpose import core, io, models
@@ -28,7 +29,7 @@ def main(
     y_max: int,
     out_dir: str,
     cell_diameter: int = 30,
-    cellpose_model: str = "cyto3",
+    cellpose_model: str = "cpsam",
     zs: list = [0],
     channels: list = [0, 0],
     resolution_level: int = 0,
@@ -38,25 +39,28 @@ def main(
     crop = slice_and_crop_image(
         image, x_min, x_max, y_min, y_max, zs, np.array(channels), resolution_level
     )
-    # if z is missing, add it
-    if len(crop.shape) == 3:
-        crop = np.expand_dims(crop, axis=0)
+
+    is_3d = len(zs) > 1
+    if is_3d:
+        # (Z, Y, X) grayscale or (Z, C, Y, X) multichannel
+        z_axis = 0
+        channel_axis = 1 if len(crop.shape) == 4 else None
+    else:
+        # (Y, X) grayscale or (C, Y, X) multichannel
+        z_axis = None
+        channel_axis = 0 if len(crop.shape) == 3 else None
 
     logging.info(f"Loading Cellpose model: {cellpose_model} (GPU: {core.use_gpu()})")
-    model = models.Cellpose(gpu=core.use_gpu(), model_type=cellpose_model)
-    # model = denoise.CellposeDenoiseModel(
-    #     gpu=core.use_gpu(),
-    #     model_type=cellpose_model,
-    #     restore_type="denoise_cyto3",
-    #     chan2_restore=False
-    # )
+    model = models.CellposeModel(gpu=core.use_gpu())
 
-    masks, flows, _, _ = model.eval(
+    cp_channels = [0] if len(set(channels)) == 1 else [0, 1]
+    masks, flows, _ = model.eval(
         crop,
-        channels=channels,
+        channels=cp_channels,
         diameter=cell_diameter,
-        channel_axis=1,
-        z_axis=0,
+        channel_axis=channel_axis,
+        z_axis=z_axis,
+        do_3D=is_3d,
         **cp_params,
     )
     os.mkdir(out_dir)
@@ -66,8 +70,8 @@ def main(
         flows,
         file_names=out_dir,
         save_txt=True,
-        png=True,
-        tif=False,
+        png=not is_3d,
+        tif=is_3d,
         save_flows=False,
         save_outlines=True,
         savedir=out_dir,

@@ -38,11 +38,11 @@
                 ]
             }
         ],
+        "timestamp": "2025-10-23T15:17:42.636206013",
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "24.10.5"
-        },
-        "timestamp": "2025-10-23T15:17:42.636206013"
+        }
     },
     "mouse_heart - tiff - 500": {
         "content": [
@@ -52,7 +52,7 @@
                         {
                             "id": "test"
                         },
-                        "test-0_0_500_500-diam_20_cp_outlines.txt:md5,adb12dc55d990539b15f3ce61d7c8efe"
+                        "test-0_0_500_500-diam_20_cp_outlines.txt:md5,4bb3af4e6f6b1efb270f9fffd60c8b65"
                     ]
                 ],
                 "1": [
@@ -60,7 +60,7 @@
                         {
                             "id": "test"
                         },
-                        "test-0_0_500_500-diam_20_cp_outlines.wkt:md5,fe837bbb6adc3d13928ed9b3405e4d9c"
+                        "test-0_0_500_500-diam_20_cp_outlines.wkt:md5,87a498f4de567d6b4248ba5e3ce3fada"
                     ]
                 ],
                 "2": [
@@ -69,8 +69,8 @@
                             "id": "test"
                         },
                         [
-                            "test-0_0_500_500-diam_20_cp_masks.png:md5,a1e143c85d8314e9abe9d2d35ea9760a",
-                            "test-0_0_500_500-diam_20_outlines.png:md5,36b8f6235c68416d267290547010f453"
+                            "test-0_0_500_500-diam_20_cp_masks.png:md5,d102eb7bf42a295eb73a019674781214",
+                            "test-0_0_500_500-diam_20_outlines_cp_masks.png:md5,a1dbb46453d4c4b3667396f8024c6ca8"
                         ]
                     ]
                 ],
@@ -83,8 +83,8 @@
                             "id": "test"
                         },
                         [
-                            "test-0_0_500_500-diam_20_cp_masks.png:md5,a1e143c85d8314e9abe9d2d35ea9760a",
-                            "test-0_0_500_500-diam_20_outlines.png:md5,36b8f6235c68416d267290547010f453"
+                            "test-0_0_500_500-diam_20_cp_masks.png:md5,d102eb7bf42a295eb73a019674781214",
+                            "test-0_0_500_500-diam_20_outlines_cp_masks.png:md5,a1dbb46453d4c4b3667396f8024c6ca8"
                         ]
                     ]
                 ],
@@ -93,7 +93,7 @@
                         {
                             "id": "test"
                         },
-                        "test-0_0_500_500-diam_20_cp_outlines.txt:md5,adb12dc55d990539b15f3ce61d7c8efe"
+                        "test-0_0_500_500-diam_20_cp_outlines.txt:md5,4bb3af4e6f6b1efb270f9fffd60c8b65"
                     ]
                 ],
                 "versions": [
@@ -104,16 +104,61 @@
                         {
                             "id": "test"
                         },
-                        "test-0_0_500_500-diam_20_cp_outlines.wkt:md5,fe837bbb6adc3d13928ed9b3405e4d9c"
+                        "test-0_0_500_500-diam_20_cp_outlines.wkt:md5,87a498f4de567d6b4248ba5e3ce3fada"
                     ]
                 ]
             }
         ],
+        "timestamp": "2026-04-29T17:04:05.152926311",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
-        },
-        "timestamp": "2025-10-23T15:16:46.604313621"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    },
+    "fake_3d_ball - tiff - 3D": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test-0_0_100_100-diam_20_cp_outlines.wkt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    "versions.yml:md5,2ae21bb29e6f754233afadc14a8b8fd6"
+                ],
+                "cp_plots": [
+                    
+                ],
+                "outlines": [
+                    
+                ],
+                "versions": [
+                    "versions.yml:md5,2ae21bb29e6f754233afadc14a8b8fd6"
+                ],
+                "wkts": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test-0_0_100_100-diam_20_cp_outlines.wkt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-04-29T20:20:37.593800631",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
     },
     "mouse_heart - tiff - 200": {
         "content": [
@@ -123,7 +168,7 @@
                         {
                             "id": "test"
                         },
-                        "test-0_0_200_200-diam_20_cp_outlines.txt:md5,84905a3565d5e31df584c35cd42fc120"
+                        "test-0_0_200_200-diam_20_cp_outlines.txt:md5,176bb1d4a70016605424a37a4c812b99"
                     ]
                 ],
                 "1": [
@@ -131,7 +176,7 @@
                         {
                             "id": "test"
                         },
-                        "test-0_0_200_200-diam_20_cp_outlines.wkt:md5,b5d958738a1e7f30115b2ca3937755e4"
+                        "test-0_0_200_200-diam_20_cp_outlines.wkt:md5,0bdd6ec25787fb9f1b3803090f989964"
                     ]
                 ],
                 "2": [
@@ -140,8 +185,8 @@
                             "id": "test"
                         },
                         [
-                            "test-0_0_200_200-diam_20_cp_masks.png:md5,2438cd29e8c392d7dd896c4abe763d50",
-                            "test-0_0_200_200-diam_20_outlines.png:md5,ae0e50c7f2ae8af015e989f8eb8d2ff8"
+                            "test-0_0_200_200-diam_20_cp_masks.png:md5,28462ef38659f33f1a1caee4263309c7",
+                            "test-0_0_200_200-diam_20_outlines_cp_masks.png:md5,d52e091748a48c0e20e28b9177b69523"
                         ]
                     ]
                 ],
@@ -154,8 +199,8 @@
                             "id": "test"
                         },
                         [
-                            "test-0_0_200_200-diam_20_cp_masks.png:md5,2438cd29e8c392d7dd896c4abe763d50",
-                            "test-0_0_200_200-diam_20_outlines.png:md5,ae0e50c7f2ae8af015e989f8eb8d2ff8"
+                            "test-0_0_200_200-diam_20_cp_masks.png:md5,28462ef38659f33f1a1caee4263309c7",
+                            "test-0_0_200_200-diam_20_outlines_cp_masks.png:md5,d52e091748a48c0e20e28b9177b69523"
                         ]
                     ]
                 ],
@@ -164,7 +209,7 @@
                         {
                             "id": "test"
                         },
-                        "test-0_0_200_200-diam_20_cp_outlines.txt:md5,84905a3565d5e31df584c35cd42fc120"
+                        "test-0_0_200_200-diam_20_cp_outlines.txt:md5,176bb1d4a70016605424a37a4c812b99"
                     ]
                 ],
                 "versions": [
@@ -175,68 +220,42 @@
                         {
                             "id": "test"
                         },
-                        "test-0_0_200_200-diam_20_cp_outlines.wkt:md5,b5d958738a1e7f30115b2ca3937755e4"
+                        "test-0_0_200_200-diam_20_cp_outlines.wkt:md5,0bdd6ec25787fb9f1b3803090f989964"
                     ]
                 ]
             }
         ],
+        "timestamp": "2026-04-29T17:05:06.734335432",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
-        },
-        "timestamp": "2025-10-23T15:17:08.126863979"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
     },
     "mouse_heart - tiff - 200 - large cell diameter": {
         "content": [
             {
                 "0": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "test-0_0_200_200-diam_50_cp_outlines.txt:md5,1c4328b60eec087cdfe59c5392c228c5"
-                    ]
+                    
                 ],
                 "1": [
                     [
                         {
                             "id": "test"
                         },
-                        "test-0_0_200_200-diam_50_cp_outlines.wkt:md5,794454b80771bfb41532a6eb5ebf2dff"
+                        "test-0_0_200_200-diam_50_cp_outlines.wkt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "2": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        [
-                            "test-0_0_200_200-diam_50_cp_masks.png:md5,eb0c89bce655669134a7c08108a9fbe4",
-                            "test-0_0_200_200-diam_50_outlines.png:md5,23c766ec26a1a6f5ec107c855ec9dbbf"
-                        ]
-                    ]
+                    
                 ],
                 "3": [
                     "versions.yml:md5,2ae21bb29e6f754233afadc14a8b8fd6"
                 ],
                 "cp_plots": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        [
-                            "test-0_0_200_200-diam_50_cp_masks.png:md5,eb0c89bce655669134a7c08108a9fbe4",
-                            "test-0_0_200_200-diam_50_outlines.png:md5,23c766ec26a1a6f5ec107c855ec9dbbf"
-                        ]
-                    ]
+                    
                 ],
                 "outlines": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "test-0_0_200_200-diam_50_cp_outlines.txt:md5,1c4328b60eec087cdfe59c5392c228c5"
-                    ]
+                    
                 ],
                 "versions": [
                     "versions.yml:md5,2ae21bb29e6f754233afadc14a8b8fd6"
@@ -246,15 +265,15 @@
                         {
                             "id": "test"
                         },
-                        "test-0_0_200_200-diam_50_cp_outlines.wkt:md5,794454b80771bfb41532a6eb5ebf2dff"
+                        "test-0_0_200_200-diam_50_cp_outlines.wkt:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ]
             }
         ],
+        "timestamp": "2026-04-29T17:05:34.215982597",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
-        },
-        "timestamp": "2025-10-23T15:17:29.924919321"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
     }
 }
