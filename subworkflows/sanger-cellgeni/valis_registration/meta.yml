@@ -20,9 +20,9 @@ input:
   - ch_slides:
       type: file
       description: |
-        Structure: [ val(meta), path(reference_img), path(moving_imgs) ]
-        reference_img is the fixed image all moving images are aligned to.
-        moving_imgs is one or more files (list accepted by Nextflow path input).
+        Structure: [ val(meta), path(images) ]
+        An ordered list of images. The first image is used as the fixed reference;
+        all remaining images are registered (moved) onto it.
       pattern: "*.{tif,tiff,svs,ndpi,czi,lif}"
   - ch_channel_names:
       type: file

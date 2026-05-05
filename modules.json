@@ -82,7 +82,7 @@
           },
           "valis/merge": {
             "branch": "develop",
-            "git_sha": "9e83696b9246c435da8b67622776870a918441c8",
+            "git_sha": "b3909d5c156bca66ab7577e10d8c0961413ad5a8",
             "installed_by": ["valis_registration"]
           },
           "valis/register": {
@@ -92,7 +92,7 @@
           },
           "valis/warp": {
             "branch": "develop",
-            "git_sha": "9e83696b9246c435da8b67622776870a918441c8",
+            "git_sha": "b3909d5c156bca66ab7577e10d8c0961413ad5a8",
             "installed_by": ["valis_registration"]
           }
         }
@@ -116,7 +116,7 @@
           },
           "valis_registration": {
             "branch": "develop",
-            "git_sha": "9e83696b9246c435da8b67622776870a918441c8",
+            "git_sha": "b3909d5c156bca66ab7577e10d8c0961413ad5a8",
             "installed_by": ["subworkflows"]
           }
         }

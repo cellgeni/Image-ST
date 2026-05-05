@@ -18,7 +18,9 @@ process VALIS_WARP {
     }
 
     input:
-    tuple val(meta), path(registrar)
+    // results_dir is the full VALIS_REGISTER output dir; staging it makes
+    // input_slides/ accessible at the same relative path the registrar expects.
+    tuple val(meta), path(results_dir)
 
     output:
     tuple val(meta), path("${out_dir}"), emit: registered_slides
@@ -34,7 +36,7 @@ process VALIS_WARP {
     """
     mkdir -p ${out_dir}
     valis-cli warp \\
-        ${registrar} \\
+        ${results_dir}/${prefix}/data/${prefix}_registrar.pickle \\
         ${out_dir} \\
         ${args}
     """
