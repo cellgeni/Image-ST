@@ -5,12 +5,11 @@ process OMERO_IMPORTSEGMENTATION {
 
     // conda "${moduleDir}/environment.yml"
     container "quay.io/cellgeni/roi_convert_ngff:0.6.2"
+    secret 'OMERO_USER'
+    secret 'OMERO_PASSWORD'
 
     input:
     tuple val(meta), path(csv), val(image_id), val(host), val(table_name), val(roi_name), val(out_dir)
-
-    secret 'OMERO_USER'
-    secret 'OMERO_PASSWORD'
 
     output:
     tuple val(meta), path("*.importsegmentation.done.txt"), emit: done

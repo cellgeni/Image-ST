@@ -67,7 +67,7 @@
           },
           "omero/importsegmentation": {
             "branch": "develop",
-            "git_sha": "05bb33ce27cc5aa0043cadec00d285b1614ed26d",
+            "git_sha": "a6f71f51bf4868888d90d9e14a18b6809e021b0a",
             "installed_by": ["modules"]
           },
           "spatial/generatevitessceconfig": {
