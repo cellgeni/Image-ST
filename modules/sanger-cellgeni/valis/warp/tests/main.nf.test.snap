@@ -1,0 +1,47 @@
+{
+    "valis warp - registrar pickle - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        [
+                            "test_sample_registered.ome.tiff:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "1": [
+                    [
+                        "VALIS_WARP",
+                        "valis",
+                        ""
+                    ]
+                ],
+                "registered_slides": [
+                    [
+                        {
+                            "id": "test_sample"
+                        },
+                        [
+                            "test_sample_registered.ome.tiff:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    [
+                        "VALIS_WARP",
+                        "valis",
+                        ""
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-05-05T14:45:04.211990503",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    }
+}

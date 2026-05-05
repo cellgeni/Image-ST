@@ -1,0 +1,69 @@
+name: "valis_registration"
+description: |
+  Register a set of whole-slide images with VALIS, warp them to the registered
+  space, and merge all channels into a single OME-TIFF. Wraps the three
+  valis/register, valis/warp, and valis/merge modules in a single subworkflow.
+keywords:
+  - valis
+  - registration
+  - warp
+  - merge
+  - ome-tiff
+  - whole-slide image
+  - multiplex imaging
+components:
+  - valis/register
+  - valis/warp
+  - valis/merge
+
+input:
+  - ch_slides:
+      type: file
+      description: |
+        Structure: [ val(meta), path(reference_img), path(moving_imgs) ]
+        reference_img is the fixed image all moving images are aligned to.
+        moving_imgs is one or more files (list accepted by Nextflow path input).
+      pattern: "*.{tif,tiff,svs,ndpi,czi,lif}"
+  - ch_channel_names:
+      type: file
+      description: |
+        Structure: [ val(meta), path(channel_names_json) ]
+        JSON mapping slide filenames to channel name lists (CyCIF-style).
+        Pass `[ meta, [] ]` when channel names are not required.
+      pattern: "*.json"
+
+output:
+  - results_dir:
+      type: directory
+      description: |
+        VALIS registration results directory (thumbnails, overlaps, summary CSV,
+        registrar pickle, pre-registered slides).
+        Structure: [ val(meta), path(results_dir) ]
+  - registrar:
+      type: file
+      description: |
+        Serialised VALIS registrar pickle.
+        Structure: [ val(meta), path(*_registrar.pickle) ]
+      pattern: "*_registrar.pickle"
+  - registered_slides:
+      type: directory
+      description: |
+        Full-resolution registered slide files produced by the warp step.
+        Structure: [ val(meta), path(warp_dir) ]
+  - merged:
+      type: file
+      description: |
+        Multi-channel OME-TIFF with all registered channels merged.
+        Structure: [ val(meta), path(*_merged.ome.tiff) ]
+      pattern: "*_merged.ome.tiff"
+  - versions:
+      type: file
+      description: |
+        File containing software versions.
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

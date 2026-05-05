@@ -1,0 +1,64 @@
+nextflow_process {
+
+    name "Test Process VALIS_MERGE"
+    script "../main.nf"
+    process "VALIS_MERGE"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_sanger-cellgeni"
+    tag "valis"
+    tag "valis/merge"
+
+    test("valis merge - no channel names - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                def registrar = file("test_sample_registrar.pickle")
+                registrar.text = "stub"
+
+                input[0] = [ [ id: 'test_sample' ], registrar, [] ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.merged[0][1].toString().endsWith('test_sample_merged.ome.tiff') },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("valis merge - with channel names json - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                def registrar = file("test_sample_registrar.pickle")
+                registrar.text = "stub"
+
+                def ch_names = file("channel_names.json")
+                ch_names.text = '{"round1.ome.tiff":["DAPI","CD3"],"round2.ome.tiff":["DAPI","CD20"]}'
+
+                input[0] = [ [ id: 'test_sample' ], registrar, ch_names ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.merged[0][1].toString().endsWith('test_sample_merged.ome.tiff') },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

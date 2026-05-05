@@ -1,0 +1,48 @@
+name: "valis_warp"
+description: Warp whole-slide images to the registered space using a saved VALIS registrar, producing full-resolution registered slides.
+keywords:
+  - valis
+  - warp
+  - registration
+  - whole-slide image
+tools:
+  - "valis":
+      description: "Virtual Alignment of pathoLogy Image Series — automated registration of whole-slide images."
+      homepage: "https://github.com/MathOnco/valis"
+      documentation: "https://valis.readthedocs.io"
+      tool_dev_url: "https://github.com/MathOnco/valis"
+      licence: ["MIT"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - registrar:
+        type: file
+        description: Serialised VALIS registrar pickle produced by the register step.
+        pattern: "*_registrar.pickle"
+
+output:
+  registered_slides:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_valis_warp":
+          type: directory
+          description: Directory containing full-resolution registered slide files.
+          pattern: "*_valis_warp"
+
+  versions:
+    - versions:
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

@@ -1,0 +1,56 @@
+name: "valis_merge"
+description: Merge VALIS-registered channels from all input slides into a single multi-channel OME-TIFF using a saved registrar.
+keywords:
+  - valis
+  - merge
+  - ome-tiff
+  - registration
+  - multiplex
+tools:
+  - "valis":
+      description: "Virtual Alignment of pathoLogy Image Series — automated registration of whole-slide images."
+      homepage: "https://github.com/MathOnco/valis"
+      documentation: "https://valis.readthedocs.io"
+      tool_dev_url: "https://github.com/MathOnco/valis"
+      licence: ["MIT"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - registrar:
+        type: file
+        description: Serialised VALIS registrar pickle produced by the register step.
+        pattern: "*_registrar.pickle"
+    - channel_names_json:
+        type: file
+        description: |
+          Optional JSON file mapping slide filenames to lists of channel names
+          (CyCIF-style). Pass `[]` when channel names are not required.
+          e.g. `{ "/path/round1.ome.tiff": ["DAPI","CD3"], ... }`
+        pattern: "*.json"
+
+output:
+  merged:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_merged.ome.tiff":
+          type: file
+          description: Multi-channel OME-TIFF with all registered channels merged.
+          pattern: "*_merged.ome.tiff"
+
+  versions:
+    - versions:
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

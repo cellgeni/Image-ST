@@ -79,6 +79,21 @@
             "branch": "develop",
             "git_sha": "5eeb9752a0640b564ba99e56a193b75ee97f1e1d",
             "installed_by": ["modules"]
+          },
+          "valis/merge": {
+            "branch": "develop",
+            "git_sha": "9e83696b9246c435da8b67622776870a918441c8",
+            "installed_by": ["valis_registration"]
+          },
+          "valis/register": {
+            "branch": "develop",
+            "git_sha": "9e83696b9246c435da8b67622776870a918441c8",
+            "installed_by": ["valis_registration"]
+          },
+          "valis/warp": {
+            "branch": "develop",
+            "git_sha": "9e83696b9246c435da8b67622776870a918441c8",
+            "installed_by": ["valis_registration"]
           }
         }
       },
@@ -97,6 +112,11 @@
           "tiled_spotiflow": {
             "branch": "develop",
             "git_sha": "362d941052ce681feadd891da300ada01b03a1cf",
+            "installed_by": ["subworkflows"]
+          },
+          "valis_registration": {
+            "branch": "develop",
+            "git_sha": "9e83696b9246c435da8b67622776870a918441c8",
             "installed_by": ["subworkflows"]
           }
         }

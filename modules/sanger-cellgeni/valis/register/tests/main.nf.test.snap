@@ -1,0 +1,68 @@
+{
+    "cycle2_self_versions": {
+        "content": [
+            [
+                [
+                    "VALIS_REGISTER",
+                    "valis",
+                    ""
+                ]
+            ]
+        ],
+        "timestamp": "2026-05-05T16:25:12.815565249",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    },
+    "cycle2_self_transforms": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "cycif_tonsil_self"
+                    },
+                    "cycif_tonsil_self_transforms.json:md5,2315e59bfe10080a080e9acbb764010f"
+                ]
+            ]
+        ],
+        "timestamp": "2026-05-05T16:25:12.807762941",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    },
+    "cycle1_cycle2_transforms": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "cycif_tonsil"
+                    },
+                    "cycif_tonsil_transforms.json:md5,faf488b19739d4125575daf0334860bb"
+                ]
+            ]
+        ],
+        "timestamp": "2026-05-05T16:24:04.644338877",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    },
+    "cycle1_cycle2_versions": {
+        "content": [
+            [
+                [
+                    "VALIS_REGISTER",
+                    "valis",
+                    ""
+                ]
+            ]
+        ],
+        "timestamp": "2026-05-05T16:24:04.660546237",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    }
+}
