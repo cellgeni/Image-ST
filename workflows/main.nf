@@ -10,6 +10,7 @@ include { TO_SPATIALDATA } from '../modules/local/to_spatialdata'
 include { SPATIAL_GENERATEVITESSCECONFIG } from '../modules/sanger-cellgeni/spatial/generatevitessceconfig/main'
 include { SPATIALDATA_EXPORTOMEROTABLE } from '../modules/sanger-cellgeni/spatialdata/exportomerotable/main'
 include { OMERO_IMPORTSEGMENTATION } from '../modules/sanger-cellgeni/omero/importsegmentation/main'
+include { VALIS_REGISTRATION } from '../subworkflows/sanger-cellgeni/valis_registration/main'
 
 
 workflow DECODE_PEAKS_FROM_IMAGE_SERIES {
@@ -18,14 +19,23 @@ workflow DECODE_PEAKS_FROM_IMAGE_SERIES {
     segmentation_method
     chs_to_call_peaks
     coding_references
+    registration_method
+    ch_channel_names_json
 
     main:
     n_cycle = images.map { it ->
         [it[0], it[1].size()]
     }
-    MICRO_ALIGNER_REGISTRATION(images)
+    if (registration_method.toLowerCase() == "valis") {
+        VALIS_REGISTRATION(images, ch_channel_names_json)
+        registered_images = VALIS_REGISTRATION.out.merged
+    }
+    else {
+        MICRO_ALIGNER_REGISTRATION(images)
+        registered_images = MICRO_ALIGNER_REGISTRATION.out.image
+    }
     EXTRACT_AND_DECODE(
-        MICRO_ALIGNER_REGISTRATION.out.image,
+        registered_images,
         segmentation_method,
         chs_to_call_peaks,
         coding_references,

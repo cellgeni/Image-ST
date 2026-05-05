@@ -35,6 +35,8 @@ workflow RUN_DECODING_IMAGE_SERIES {
         params.segmentation_method,
         params.chs_to_call_peaks,
         params.codebook,
+        params.registration_method,
+        params.ch_channel_names_json ? channel.from(params.ch_channel_names_json) : [],
     )
 }
 
