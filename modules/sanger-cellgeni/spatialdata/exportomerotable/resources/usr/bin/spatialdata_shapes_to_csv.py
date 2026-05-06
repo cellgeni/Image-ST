@@ -79,6 +79,24 @@ def _to_pandas_frame(obj):
     return obj
 
 
+def _string_join_key(series):
+    return series.astype(str)
+
+
+def _shape_ids(gdf, id_column: str | None):
+    import pandas as pd
+
+    if id_column:
+        if id_column not in gdf.columns:
+            raise ValueError(
+                f"id column '{id_column}' not found in shapes. Available: {list(gdf.columns)}"
+            )
+        return pd.Series(gdf[id_column])
+    if "object" in gdf.columns:
+        return pd.Series(gdf["object"])
+    return pd.Series(gdf.index, index=gdf.index)
+
+
 def _transcripts_to_wkt(points_obj):
     import pandas as pd
 
@@ -144,7 +162,7 @@ def main():
         "--id-column",
         dest="id_column",
         default=None,
-        help="Column in shapes to use as cell id (otherwise uses table.obs index)",
+        help="Column in shapes to use as cell id (otherwise uses shapes object column or index)",
     )
     parser.add_argument("--out", default=None, help="Cells CSV output path")
     parser.add_argument(
@@ -183,39 +201,41 @@ def main():
 
     import pandas as pd
 
+    ids = _shape_ids(gdf, args.id_column)
+    n = len(wkt)
+
     obs_df = table.obs.copy()
-    obs_index = obs_df.index
-    obs_df = obs_df.reset_index(drop=True)
-    obs_df["obs_index"] = obs_index
+    obs_df["obs_index"] = obs_df.index
+    obs_df["_shape_join_key"] = _string_join_key(
+        pd.Series(obs_df.index, index=obs_df.index)
+    )
+    shape_index = pd.DataFrame(
+        {
+            "_shape_join_key": _string_join_key(ids).to_numpy(),
+            "_shape_order": range(n),
+        }
+    )
+    obs_df = shape_index.merge(obs_df, on="_shape_join_key", how="left").drop(
+        columns=["_shape_join_key"]
+    ).sort_values("_shape_order")
+    obs_df = obs_df.drop(columns=["_shape_order"]).set_index(ids.index)
 
-    if args.id_column:
-        if args.id_column not in gdf.columns:
-            raise ValueError(
-                f"id column '{args.id_column}' not found in shapes. Available: {list(gdf.columns)}"
-            )
-        ids = gdf[args.id_column]
-    else:
-        ids = pd.Series(obs_index)
-
-    n = min(len(wkt), len(obs_df), len(ids))
-    if len(wkt) != len(obs_df) or len(wkt) != len(ids):
+    unmatched_obs_rows = obs_df["obs_index"].isna().sum()
+    if len(table.obs) != n or unmatched_obs_rows:
         print(
-            f"WARNING: length mismatch shapes={len(wkt)} obs={len(obs_df)} ids={len(ids)}; truncating to {n} rows.",
+            f"WARNING: length mismatch shapes={len(wkt)} obs={len(table.obs)} ids={len(ids)}; "
+            f"exporting all shape rows and leaving table columns empty for {unmatched_obs_rows} unmatched shapes.",
             file=sys.stderr,
         )
 
-    wkt = wkt.iloc[:n].reset_index(drop=True)
-    obs_df = obs_df.iloc[:n].reset_index(drop=True)
-    ids = pd.Series(ids).iloc[:n].reset_index(drop=True)
-
     base_ids = _coerce_int(ids)
     if base_ids.duplicated().any() or base_ids.isna().any():
-        object_ids = pd.Series(range(1, n + 1), name="object")
+        object_ids = pd.Series(range(1, n + 1), index=ids.index, name="object")
     else:
         object_ids = base_ids.rename("object")
 
     out_df = pd.concat(
-        [object_ids, pd.Series(wkt.values, name="polygon"), obs_df], axis=1
+        [object_ids, wkt.rename("polygon"), obs_df], axis=1
     )
     out_df.to_csv(args.out, index=False)
 
