@@ -14,7 +14,7 @@
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,fe370145fc14c9517816dbbd5dfa273e"
+                    "versions.yml:md5,61325cdf57afae3da72d6d421a87b433"
                 ],
                 "multipoly_geojsons": [
                     [
@@ -28,15 +28,15 @@
                     
                 ],
                 "versions": [
-                    "versions.yml:md5,fe370145fc14c9517816dbbd5dfa273e"
+                    "versions.yml:md5,61325cdf57afae3da72d6d421a87b433"
                 ]
             }
         ],
+        "timestamp": "2026-05-06T18:37:06.990734476",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
-        },
-        "timestamp": "2026-02-26T10:13:20.702033604"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
     },
     "mouse heart - wkt": {
         "content": [
@@ -46,7 +46,7 @@
                         {
                             "id": "test"
                         },
-                        "test_merged.wkt:md5,ac7ba24ae1deff214bf465aed36a42f9"
+                        "test_merged.wkt:md5,b06bb6f68a118644e72ccfffaedaa46b"
                     ]
                 ],
                 "1": [
@@ -54,18 +54,18 @@
                         {
                             "id": "test"
                         },
-                        "test_merged.geojson:md5,0e17590b6af5065d58270ee8708db50c"
+                        "test_merged.geojson:md5,17ce1d6730c217292a5d5ee387715876"
                     ]
                 ],
                 "2": [
-                    "versions.yml:md5,fe370145fc14c9517816dbbd5dfa273e"
+                    "versions.yml:md5,61325cdf57afae3da72d6d421a87b433"
                 ],
                 "multipoly_geojsons": [
                     [
                         {
                             "id": "test"
                         },
-                        "test_merged.geojson:md5,0e17590b6af5065d58270ee8708db50c"
+                        "test_merged.geojson:md5,17ce1d6730c217292a5d5ee387715876"
                     ]
                 ],
                 "multipoly_wkts": [
@@ -73,18 +73,18 @@
                         {
                             "id": "test"
                         },
-                        "test_merged.wkt:md5,ac7ba24ae1deff214bf465aed36a42f9"
+                        "test_merged.wkt:md5,b06bb6f68a118644e72ccfffaedaa46b"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,fe370145fc14c9517816dbbd5dfa273e"
+                    "versions.yml:md5,61325cdf57afae3da72d6d421a87b433"
                 ]
             }
         ],
+        "timestamp": "2026-05-06T18:36:52.864779471",
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
-        },
-        "timestamp": "2026-02-26T10:13:11.778903634"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
     }
 }
