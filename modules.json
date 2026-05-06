@@ -77,7 +77,7 @@
           },
           "spatialdata/exportomerotable": {
             "branch": "develop",
-            "git_sha": "0154c9b33a70b677bbdcd2fba1a80ae062c841a9",
+            "git_sha": "7ce23e5c25e25715867ef69d2c04966ad88daefe",
             "installed_by": ["modules"]
           },
           "valis/merge": {

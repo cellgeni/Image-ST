@@ -11,22 +11,30 @@ from pathlib import Path
 
 
 def _resolve_reader():
-    try:
-        from spatialdata import read_zarr  # type: ignore
-
-        return read_zarr
-    except Exception:
-        pass
+    errors = []
 
     try:
-        from spatialdata import SpatialData  # type: ignore
+        import spatialdata  # type: ignore
 
-        return SpatialData.read
-    except Exception:
-        pass
+        for attr in ("read_zarr", "read"):
+            reader = getattr(spatialdata, attr, None)
+            if callable(reader):
+                return reader
+
+        spatial_data_cls = getattr(spatialdata, "SpatialData", None)
+        reader = getattr(spatial_data_cls, "read", None)
+        if callable(reader):
+            return reader
+
+        errors.append(
+            "spatialdata imported but has no callable read_zarr, read, or SpatialData.read"
+        )
+    except Exception as exc:
+        errors.append(f"import spatialdata failed: {type(exc).__name__}: {exc}")
 
     raise ImportError(
-        "Could not find a SpatialData reader (read_zarr / SpatialData.read)."
+        "Could not find a SpatialData reader (read_zarr / read / SpatialData.read). "
+        + "; ".join(errors)
     )
 
 
