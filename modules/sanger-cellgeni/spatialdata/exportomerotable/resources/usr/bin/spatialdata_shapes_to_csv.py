@@ -6,6 +6,7 @@ Load SpatialData and export:
 """
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
@@ -14,6 +15,9 @@ def _resolve_reader():
     errors = []
 
     try:
+        os.environ.setdefault("NUMBA_CACHE_DIR", "/tmp/numba-cache")
+        Path(os.environ["NUMBA_CACHE_DIR"]).mkdir(parents=True, exist_ok=True)
+
         import spatialdata  # type: ignore
 
         for attr in ("read_zarr", "read"):
@@ -105,7 +109,7 @@ def _shape_ids(gdf, id_column: str | None):
     return pd.Series(gdf.index, index=gdf.index)
 
 
-def _transcripts_to_wkt(points_obj):
+def _transcripts_to_wkt(points_obj, buffer_radius: float = 0.0):
     import pandas as pd
 
     df = _to_pandas_frame(points_obj)
@@ -116,10 +120,13 @@ def _transcripts_to_wkt(points_obj):
     features_df = features_df.rename(columns={"index": "points_index"})
 
     if "geometry" in df.columns:
+        geometry = df["geometry"]
+        if buffer_radius > 0:
+            geometry = geometry.buffer(buffer_radius)
         try:
-            wkt = df["geometry"].to_wkt()
+            wkt = geometry.to_wkt()
         except Exception:
-            wkt = df["geometry"].apply(
+            wkt = geometry.apply(
                 lambda geom: geom.wkt if geom is not None else None
             )
         if "geometry" in features_df.columns:
@@ -146,7 +153,15 @@ def _transcripts_to_wkt(points_obj):
             f"Could not find transcript coordinate columns. Available columns: {list(df.columns)}"
         )
 
-    wkt = "POINT (" + df[x_col].astype(str) + " " + df[y_col].astype(str) + ")"
+    if buffer_radius > 0:
+        from shapely.geometry import Point
+
+        wkt = df.apply(
+            lambda row: Point(row[x_col], row[y_col]).buffer(buffer_radius).wkt,
+            axis=1,
+        )
+    else:
+        wkt = "POINT (" + df[x_col].astype(str) + " " + df[y_col].astype(str) + ")"
     out = pd.concat(
         [
             pd.Series(range(1, len(df) + 1), name="object"),
@@ -179,7 +194,17 @@ def main():
         default=None,
         help="Transcripts CSV output path",
     )
+    parser.add_argument(
+        "--transcript-buffer",
+        dest="transcript_buffer",
+        type=float,
+        default=0.0,
+        help="Buffer radius for transcript points. Default 0 keeps POINT WKT; positive values export circular POLYGON WKT.",
+    )
     args = parser.parse_args()
+
+    if args.transcript_buffer < 0:
+        raise ValueError("--transcript-buffer must be greater than or equal to 0.")
 
     stem = Path(args.spatialdata_path).resolve().name
     if stem.endswith(".zarr"):
@@ -247,7 +272,7 @@ def main():
     )
     out_df.to_csv(args.out, index=False)
 
-    transcripts_df = _transcripts_to_wkt(points)
+    transcripts_df = _transcripts_to_wkt(points, args.transcript_buffer)
     transcripts_df.to_csv(args.out_transcripts, index=False)
 
     print(f"Wrote {len(out_df)} rows to {args.out}")
