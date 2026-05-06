@@ -46,8 +46,8 @@
             "installed_by": ["tiled_spotiflow"]
           },
           "imaging/microaligner": {
-            "branch": "main",
-            "git_sha": "dbed639cc5fc21e568581b172aa3d3476f6074f4",
+            "branch": "develop",
+            "git_sha": "eb9b34563279363acd2a6f38fe75a43658ceb0e8",
             "installed_by": ["microaligner_registration"]
           },
           "imaging/postcode": {
@@ -82,17 +82,17 @@
           },
           "valis/merge": {
             "branch": "develop",
-            "git_sha": "b3909d5c156bca66ab7577e10d8c0961413ad5a8",
+            "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
             "installed_by": ["valis_registration"]
           },
           "valis/register": {
             "branch": "develop",
-            "git_sha": "9e83696b9246c435da8b67622776870a918441c8",
+            "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
             "installed_by": ["valis_registration"]
           },
           "valis/warp": {
             "branch": "develop",
-            "git_sha": "b3909d5c156bca66ab7577e10d8c0961413ad5a8",
+            "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
             "installed_by": ["valis_registration"]
           }
         }
