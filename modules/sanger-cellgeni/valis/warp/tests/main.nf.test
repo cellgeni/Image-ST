@@ -1,0 +1,37 @@
+nextflow_process {
+
+    name "Test Process VALIS_WARP"
+    script "../main.nf"
+    process "VALIS_WARP"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_sanger-cellgeni"
+    tag "valis"
+    tag "valis/warp"
+
+    test("valis warp - registrar pickle - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                def registrar = file("test_sample_registrar.pickle")
+                registrar.text = "stub"
+
+                input[0] = [ [ id: 'test_sample' ], registrar ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.registered_slides[0][1].toString().contains('test_sample_valis_warp') },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

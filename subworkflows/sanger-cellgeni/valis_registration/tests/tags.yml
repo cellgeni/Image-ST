@@ -1,0 +1,5 @@
+subworkflows/valis_registration:
+  - subworkflows/sanger-cellgeni/valis_registration/**
+  - modules/sanger-cellgeni/valis/register/**
+  - modules/sanger-cellgeni/valis/warp/**
+  - modules/sanger-cellgeni/valis/merge/**

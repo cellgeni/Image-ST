@@ -12,16 +12,17 @@ workflow TILED_SEGMENTATION {
     method
 
     main:
-    ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
     GENERATE_TILE_COORDS(images)
     ch_versions = ch_versions.mix(GENERATE_TILE_COORDS.out.versions.first())
 
-    images_tiles = GENERATE_TILE_COORDS.out.tile_coords
+    def images_tiles = GENERATE_TILE_COORDS.out.tile_coords
         .splitCsv(header: true, sep: ",")
         .map { meta, coords ->
             [meta, coords.X_MIN, coords.Y_MIN, coords.X_MAX, coords.Y_MAX]
         }
-    tiles_and_images = images_tiles.combine(images, by: 0)
+    def tiles_and_images = images_tiles.combine(images, by: 0)
+    def wkts = null
     if (method == "CELLPOSE") {
         CELLPOSE(tiles_and_images.combine(channel.from(params.cell_diameters)))
         wkts = CELLPOSE.out.wkts.groupTuple(by: 0)

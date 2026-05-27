@@ -2,8 +2,8 @@ process IMAGING_MERGEOUTLINES {
     tag "${meta.id}"
 
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? 'quay.io/cellgeni/imagetileprocessor:0.1.16'
-        : 'quay.io/cellgeni/imagetileprocessor:0.1.16'}"
+        ? 'quay.io/cellgeni/imagetileprocessor:0.2.1'
+        : 'quay.io/cellgeni/imagetileprocessor:0.2.1'}"
 
     input:
     tuple val(meta), path(outlines)
@@ -21,7 +21,7 @@ process IMAGING_MERGEOUTLINES {
     prefix = task.ext.prefix ?: "${meta.id}_merged"
     """
     merge-polygons \\
-        --wkts ${outlines} \\
+        ${outlines} \\
         --output_prefix "${prefix}" \\
         ${args} \\
 

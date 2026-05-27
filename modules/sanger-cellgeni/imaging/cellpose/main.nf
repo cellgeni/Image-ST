@@ -2,12 +2,11 @@ process IMAGING_CELLPOSE {
     tag "${meta.id}"
 
     label "medium_mem"
+    label "gpu_single"
 
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? "quay.io/cellgeni/tiled_cellpose:0.1.5"
-        : "quay.io/cellgeni/tiled_cellpose:0.1.5"}"
-
-    publishDir params.out_dir + "/naive_cellpose_segmentation"
+        ? "quay.io/cellgeni/tiled_cellpose:4.1.1"
+        : "quay.io/cellgeni/tiled_cellpose:4.1.1"}"
 
     input:
     tuple val(meta), val(x_min), val(y_min), val(x_max), val(y_max), path(image), val(cell_diameter)
@@ -22,6 +21,7 @@ process IMAGING_CELLPOSE {
     prefix = "${meta.id}-${x_min}_${y_min}_${x_max}_${y_max}-diam_${cell_diameter}"
     def args = task.ext.args ?: ''
     """
+    export PYTHONNOUSERSITE=1
     cellpose_seg.py run \
         --image ${image} \
         --x_min ${x_min} \

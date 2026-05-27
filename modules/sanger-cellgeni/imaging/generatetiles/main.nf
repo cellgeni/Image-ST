@@ -2,8 +2,8 @@ process IMAGING_GENERATETILES {
     tag "${meta.id}"
 
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? "quay.io/cellgeni/imagetileprocessor:0.1.16"
-        : "quay.io/cellgeni/imagetileprocessor:0.1.16"}"
+        ? "quay.io/cellgeni/imagetileprocessor:0.2.0"
+        : "quay.io/cellgeni/imagetileprocessor:0.2.0"}"
 
     input:
     tuple val(meta), path(image)

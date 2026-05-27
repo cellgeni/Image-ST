@@ -11,9 +11,9 @@ workflow TILED_SPOTIFLOW {
     chs_to_call_peaks
 
     main:
-    ch_versions = Channel.empty()
+    def ch_versions = channel.empty()
     GENERATE_TILE_COORDS(images)
-    images_tiles = GENERATE_TILE_COORDS.out.tile_coords
+    def images_tiles = GENERATE_TILE_COORDS.out.tile_coords
         .splitCsv(header: true, sep: ",")
         .map { meta, coords ->
             [meta, coords.X_MIN, coords.Y_MIN, coords.X_MAX, coords.Y_MAX]

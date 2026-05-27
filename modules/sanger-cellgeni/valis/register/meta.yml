@@ -1,0 +1,88 @@
+name: "valis_register"
+description: Register whole-slide images using VALIS with an explicit fixed reference image, producing alignment transforms and a registrar pickle for downstream warping and merging.
+keywords:
+  - valis
+  - registration
+  - whole-slide image
+  - ome-tiff
+tools:
+  - "valis":
+      description: "Virtual Alignment of pathoLogy Image Series — automated registration of whole-slide images."
+      homepage: "https://github.com/MathOnco/valis"
+      documentation: "https://valis.readthedocs.io"
+      tool_dev_url: "https://github.com/MathOnco/valis"
+      licence: ["MIT"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - reference_img:
+        type: file
+        description: |
+          Fixed reference image that all moving images will be aligned to.
+          Staged as `000_reference.<ext>` inside the VALIS input_slides directory.
+        pattern: "*.{tif,tiff,svs,ndpi,czi,lif}"
+    - moving_imgs:
+        type: file
+        description: |
+          One or more moving images to register against the reference.
+          Pass as a list; Nextflow stages them into the work directory and they
+          are forwarded as positional arguments to `valis-cli register`.
+        pattern: "*.{tif,tiff,svs,ndpi,czi,lif}"
+
+output:
+  results_dir:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_valis_register":
+          type: directory
+          description: |
+            Results directory containing VALIS thumbnails, overlap images,
+            summary CSV, registrar pickle, and pre-registered slides.
+          pattern: "*_valis_register"
+
+  registrar:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_valis_register/*_registrar.pickle":
+          type: file
+          description: |
+            Serialised VALIS registrar object used by the warp and merge steps.
+            Stored under `{out_dir}/{prefix}/data/` because VALIS names its
+            results sub-directory after the --name argument.
+          pattern: "*_registrar.pickle"
+
+  transforms:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_valis_register/*/*_transforms.json":
+          type: file
+          description: |
+            OME-NGFF RFC-5 style JSON containing the per-slide 3×3 affine/homography
+            matrices mapping each slide's pixel coordinates to the reference image
+            coordinate system.  Fields: `@context`, `registration_name`,
+            `coordinateTransformations[]` (name, src_f, is_reference, type, affine).
+          pattern: "*_transforms.json"
+
+  versions:
+    - versions:
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

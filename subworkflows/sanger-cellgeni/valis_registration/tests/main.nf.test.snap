@@ -1,0 +1,45 @@
+{
+    "cycle1_cycle2_transforms": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "cycif_tonsil"
+                    },
+                    "cycif_tonsil_transforms.json:md5,faf488b19739d4125575daf0334860bb"
+                ]
+            ]
+        ],
+        "timestamp": "2026-05-05T19:33:10.361624654",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    },
+    "cycle1_cycle2_versions": {
+        "content": [
+            [
+                [
+                    "VALIS_REGISTRATION:VALIS_MERGE",
+                    "valis",
+                    ""
+                ],
+                [
+                    "VALIS_REGISTRATION:VALIS_REGISTER",
+                    "valis",
+                    ""
+                ],
+                [
+                    "VALIS_REGISTRATION:VALIS_WARP",
+                    "valis",
+                    ""
+                ]
+            ]
+        ],
+        "timestamp": "2026-05-05T20:31:59.224003423",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    }
+}

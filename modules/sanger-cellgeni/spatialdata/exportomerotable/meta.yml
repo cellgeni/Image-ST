@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "spatialdata_exportomerotable"
+description: Export SpatialData shapes and transcript points to OMERO-compatible CSV tables.
+keywords:
+  - spatial
+  - spatial omics
+  - spatialdata
+  - omero
+  - csv
+tools:
+  - "spatialdata":
+      description: "SpatialData is an open and interoperable data framework for spatial omics data."
+      homepage: "https://spatialdata.scverse.org"
+      documentation: "https://spatialdata.scverse.org"
+      tool_dev_url: "https://github.com/scverse/spatialdata"
+      doi: "no DOI available"
+      licence: ["MIT"]
+      identifier: biotools:spatialdata
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - bundle:
+        type: file
+        description: SpatialData zarr store or other SpatialData object path.
+        pattern: "*"
+
+output:
+  cells_csv:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.csv":
+          type: file
+          description: Cell polygons CSV table.
+          pattern: "*.csv"
+  transcripts_csv:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_transcripts.csv":
+          type: file
+          description: Transcript points CSV table with WKT POINT geometries.
+          pattern: "*_transcripts.csv"
+  versions:
+    - "versions.yml":
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+        ontologies:
+          - edam: "http://edamontology.org/format_3750" # YAML
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - python:
+          type: string
+          description: Python version
+      - spatialdata:
+          type: string
+          description: SpatialData version
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

@@ -13,10 +13,11 @@ from spatialdata.transformations.transformations import Identity
 import pandas as pd
 import anndata
 from shapely import from_wkt, from_geojson, MultiPoint, MultiPolygon
+from shapely.geometry import Polygon
 from shapely.geometry.collection import GeometryCollection
 import numpy as np
 from skimage.segmentation import expand_labels
-from skimage.measure import regionprops_table
+from skimage.measure import regionprops_table, regionprops, find_contours
 
 from collections.abc import Mapping
 from types import MappingProxyType
@@ -78,11 +79,9 @@ def main(
     )
 
     if transcripts.endswith(".csv"):
-        spots = pd.read_csv(transcripts, header=0, sep=",")[[y_col, x_col, feature_col]]
+        spots = pd.read_csv(transcripts, header=0, sep=",")
     elif transcripts.endswith(".tsv"):
-        spots = pd.read_csv(transcripts, header=0, sep="\t")[
-            [y_col, x_col, feature_col]
-        ]
+        spots = pd.read_csv(transcripts, header=0, sep="\t")
     elif transcripts.endswith(".wkt"):
         # Assuming that the wkt file contains a multipoint geometry
         with open(transcripts, "r") as f:
@@ -95,6 +94,13 @@ def main(
         spots[feature_col] = "spot"
     else:
         raise ValueError("Format not recognized. Please provide a csv, tsv or wkt file")
+
+    required_columns = {y_col, x_col, feature_col}
+    missing_columns = required_columns.difference(spots.columns)
+    if missing_columns:
+        raise ValueError(
+            f"Missing required columns in transcripts file: {sorted(missing_columns)}"
+        )
 
     logger.info("Load cell polygons from file")
     cell_shape = load_shapemodel(cells)
@@ -116,6 +122,20 @@ def main(
     logger.info("Assigning spots to cells")
     if expansion_in_pixels > 0:
         lab_img = expand_labels(np.array(cell_labels.data), expansion_in_pixels)
+        mask = np.squeeze(lab_img).astype(np.int32)
+        expanded_polys = {}
+        for prop in regionprops(mask):
+            r0, c0, r1, c1 = prop.bbox
+            r0p = max(0, r0 - 1); c0p = max(0, c0 - 1)
+            r1p = min(mask.shape[0], r1 + 1); c1p = min(mask.shape[1], c1 + 1)
+            contours = find_contours((mask[r0p:r1p, c0p:c1p] == prop.label).astype(np.uint8), level=0.5)
+            if not contours:
+                continue
+            contour = max(contours, key=len)
+            expanded_polys[prop.label] = Polygon([(c[1] + c0p, c[0] + r0p) for c in contour])
+        ids = sorted(expanded_polys.keys())
+        expanded_df = GeoDataFrame({"instance_id": ids, "geometry": [expanded_polys[i] for i in ids]})
+        sdata["cell_shapes_expanded"] = ShapesModel.parse(expanded_df)
     else:
         lab_img = np.array(cell_labels.data)
     props_dict = regionprops_table(
@@ -169,7 +189,7 @@ def main(
 
     points = PointsModel.parse(
         spots,
-        coordinates={"x": "x_int", "y": "y_int"},
+        coordinates={"x": x_col, "y": y_col},
         feature_key=feature_col,
         # instance_key=instance_key,
         transformations={"global": Identity()},

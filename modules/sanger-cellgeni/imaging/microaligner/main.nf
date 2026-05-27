@@ -5,8 +5,8 @@ process IMAGING_MICROALIGNER {
     label 'process_large'
 
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? "quay.io/cellgeni/microaligner:v1.0.6"
-        : "quay.io/cellgeni/microaligner:v1.0.6"}"
+        ? "quay.io/cellgeni/microaligner:v1.0.7"
+        : "quay.io/cellgeni/microaligner:v1.0.7"}"
 
     input:
     tuple val(meta), path(config), path(images)

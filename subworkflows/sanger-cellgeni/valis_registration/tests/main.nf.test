@@ -1,0 +1,45 @@
+nextflow_workflow {
+
+    name "Test Subworkflow VALIS_REGISTRATION"
+    script "../main.nf"
+    workflow "VALIS_REGISTRATION"
+    config "./nextflow.config"
+
+    tag "subworkflows"
+    tag "subworkflows_sanger-cellgeni"
+    tag "valis"
+    tag "valis_registration"
+
+    test("valis registration - cycif tonsil cycle1 as reference cycle2 as moving") {
+
+        when {
+            workflow {
+                """
+                input[0] = Channel.of([
+                    [ id: 'cycif_tonsil' ],
+                    [
+                        file(params.modules_testdata_base_path + "imaging/ome-tiff/cycif-tonsil-cycle1.ome.tif", checkIfExists: true),
+                        file(params.modules_testdata_base_path + "imaging/ome-tiff/cycif-tonsil-cycle2.ome.tif", checkIfExists: true)
+                    ]
+                ])
+                input[1] = Channel.of([ [ id: 'cycif_tonsil' ], [] ])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert new File(workflow.out.results_dir[0][1].toString()).isDirectory() },
+                { assert workflow.out.results_dir[0][1].toString().contains('cycif_tonsil_valis_register') },
+                { assert new File(workflow.out.registrar[0][1].toString()).exists() },
+                { assert workflow.out.registrar[0][1].toString().endsWith('_registrar.pickle') },
+                { assert snapshot(workflow.out.transforms).match("cycle1_cycle2_transforms") },
+                { assert new File(workflow.out.registered_slides[0][1].toString()).isDirectory() },
+                { assert new File(workflow.out.merged[0][1].toString()).exists() },
+                { assert workflow.out.merged[0][1].toString().endsWith('_merged.ome.tiff') },
+                { assert snapshot(workflow.out.versions).match("cycle1_cycle2_versions") }
+            )
+        }
+    }
+}

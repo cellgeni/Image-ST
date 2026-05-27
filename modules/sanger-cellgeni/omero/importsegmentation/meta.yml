@@ -1,0 +1,76 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "omero_importsegmentation"
+description: Import NGFF segmentation ROIs into OMERO using ROI_Converter_NGFF and attach a table.
+keywords:
+  - omero
+  - microscopy
+  - roi
+  - segmentation
+  - csv
+tools:
+  - "ROI_Converter_NGFF":
+      description: "Convert NGFF ROI data and import/attach segmentation tables to OMERO."
+      homepage: ""
+      documentation: ""
+      tool_dev_url: ""
+      doi: ""
+      licence: null
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - csv:
+        type: file
+        description: ROI properties CSV input for ROI_Converter_NGFF
+        pattern: "*.csv"
+    - image_id:
+        type: integer
+        description: OMERO image id
+    - host:
+        type: string
+        description: OMERO host
+    - table_name:
+        type: string
+        description: Name for the OMERO table attachment
+    - roi_name:
+        type: string
+        description: Name for the imported ROI set
+    - out_dir:
+        type: string
+        description: Output directory passed to ROI_Converter_NGFF via -d
+
+output:
+  done:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*.importsegmentation.done.txt":
+          type: file
+          description: Text file containing the ROI id emitted by ROI_Converter_NGFF
+          pattern: "*.importsegmentation.done.txt"
+  versions:
+    - "versions.yml":
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - python:
+          type: string
+          description: Python version
+      - ROI_Converter_NGFF:
+          type: string
+          description: ROI_Converter_NGFF version
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

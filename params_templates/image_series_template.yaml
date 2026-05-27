@@ -1,0 +1,22 @@
+cell_diameters: [30]
+chs_to_call_peaks: [1]
+registration_method: "microaligner" # or valis
+referece_channel: "blue_20x"
+codebook:
+  - [
+      id: id,
+      "<codebook_file>.xlsx",
+      "./dummy.txt", # if not merfish-like
+    ]
+images:
+  - [
+      id: id,
+      [
+        "cycle1.ome.tif",
+        "cycle2.ome.tif",
+        "cycle3.ome.tif",
+        "cycle4.ome.tif",
+        "cycle5.ome.tif",
+        "cycle6.ome.tif",
+      ],
+    ]

@@ -8,6 +8,9 @@ include { IMAGING_EXTRACTPEAKPROFILE as EXTRACT_PEAK_PROFILE } from '../modules/
 include { IMAGING_POSTCODE as POSTCODE } from '../modules/sanger-cellgeni/imaging/postcode/main'
 include { TO_SPATIALDATA } from '../modules/local/to_spatialdata'
 include { SPATIAL_GENERATEVITESSCECONFIG } from '../modules/sanger-cellgeni/spatial/generatevitessceconfig/main'
+include { SPATIALDATA_EXPORTOMEROTABLE } from '../modules/sanger-cellgeni/spatialdata/exportomerotable/main'
+include { OMERO_IMPORTSEGMENTATION } from '../modules/sanger-cellgeni/omero/importsegmentation/main'
+include { VALIS_REGISTRATION } from '../subworkflows/sanger-cellgeni/valis_registration/main'
 
 
 workflow DECODE_PEAKS_FROM_IMAGE_SERIES {
@@ -16,14 +19,23 @@ workflow DECODE_PEAKS_FROM_IMAGE_SERIES {
     segmentation_method
     chs_to_call_peaks
     coding_references
+    registration_method
+    ch_channel_names_json
 
     main:
     n_cycle = images.map { it ->
         [it[0], it[1].size()]
     }
-    MICRO_ALIGNER_REGISTRATION(images)
+    if (registration_method.toLowerCase() == "valis") {
+        VALIS_REGISTRATION(images, ch_channel_names_json)
+        registered_images = VALIS_REGISTRATION.out.merged
+    }
+    else {
+        MICRO_ALIGNER_REGISTRATION(images)
+        registered_images = MICRO_ALIGNER_REGISTRATION.out.image
+    }
     EXTRACT_AND_DECODE(
-        MICRO_ALIGNER_REGISTRATION.out.image,
+        registered_images,
         segmentation_method,
         chs_to_call_peaks,
         coding_references,
@@ -39,7 +51,7 @@ workflow SIMPLE_PEAK_COUNTING {
     image_stack
 
     main:
-    TILED_SEGMENTATION(image_stack, channel.from(params.segmentation_method))
+    TILED_SEGMENTATION(image_stack, params.segmentation_method)
     TILED_SPOTIFLOW(image_stack, params.chs_to_call_peaks)
     TO_SPATIALDATA(
         TILED_SPOTIFLOW.out.spots_csv.combine(TILED_SEGMENTATION.out.geojson, by: 0).combine(image_stack, by: 0)
@@ -87,6 +99,26 @@ workflow EXTRACT_AND_DECODE {
     TO_SPATIALDATA(
         POSTCODE.out.decoded_peaks.combine(TILED_SEGMENTATION.out.geojson, by: 0).combine(image_stack, by: 0)
     )
+    SPATIALDATA_EXPORTOMEROTABLE(TO_SPATIALDATA.out.spatialdata)
+    if (params.importsegmentation) {
+        def importsegCellsInput = SPATIALDATA_EXPORTOMEROTABLE.out.cells_csv
+            .combine(Channel.from(params.importsegmentation), by: 0)
+            .filter { meta, csv, image_id, host, table_name, roi_name, out_dir ->
+                [image_id, host, table_name, roi_name, out_dir].every { it != null && it.toString().trim() }
+            }
+            .map { meta, csv, image_id, host, table_name, roi_name, out_dir ->
+                [meta, csv, image_id, host, table_name + "_" + segmentation_method, roi_name + "_" + segmentation_method, out_dir]
+            }
+        def importsegTranscriptsInput = SPATIALDATA_EXPORTOMEROTABLE.out.transcripts_csv
+            .combine(Channel.from(params.importsegmentation), by: 0)
+            .filter { meta, csv, image_id, host, table_name, roi_name, out_dir ->
+                [image_id, host, table_name, roi_name, out_dir].every { it != null && it.toString().trim() }
+            }
+            .map { meta, csv, image_id, host, table_name, roi_name, out_dir ->
+                [meta, csv, image_id, host, table_name + "_transcripts", roi_name + "_transcripts", out_dir]
+            }
+        OMERO_IMPORTSEGMENTATION(importsegCellsInput.mix(importsegTranscriptsInput))
+    }
     SPATIAL_GENERATEVITESSCECONFIG(
         TO_SPATIALDATA.out.spatialdata.map { meta, sdata ->
             def raw_name = "raw_image"

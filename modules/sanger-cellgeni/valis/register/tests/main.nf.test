@@ -1,0 +1,68 @@
+nextflow_process {
+
+    name "Test Process VALIS_REGISTER"
+    script "../main.nf"
+    process "VALIS_REGISTER"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_sanger-cellgeni"
+    tag "valis"
+    tag "valis/register"
+
+    test("valis register - cycif tonsil cycle1 as reference cycle2 as moving") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id: 'cycif_tonsil' ],
+                    file(params.modules_testdata_base_path + "imaging/ome-tiff/cycif-tonsil-cycle1.ome.tif", checkIfExists: true),
+                    file(params.modules_testdata_base_path + "imaging/ome-tiff/cycif-tonsil-cycle2.ome.tif", checkIfExists: true)
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert new File(process.out.results_dir[0][1].toString()).isDirectory() },
+                { assert process.out.results_dir[0][1].toString().contains('cycif_tonsil_valis_register') },
+                { assert new File(process.out.registrar[0][1].toString()).exists() },
+                { assert process.out.registrar[0][1].toString().endsWith('_registrar.pickle') },
+                { assert snapshot(process.out.transforms).match("cycle1_cycle2_transforms") },
+                { assert snapshot(process.out.versions).match("cycle1_cycle2_versions") }
+            )
+        }
+    }
+
+    test("valis register - cycif tonsil cycle2 as both reference and moving") {
+
+        when {
+            process {
+                """
+                def cycle2 = file(params.modules_testdata_base_path + "imaging/ome-tiff/cycif-tonsil-cycle2.ome.tif", checkIfExists: true)
+                input[0] = [
+                    [ id: 'cycif_tonsil_self' ],
+                    cycle2,
+                    cycle2
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert new File(process.out.results_dir[0][1].toString()).isDirectory() },
+                { assert process.out.results_dir[0][1].toString().contains('cycif_tonsil_self_valis_register') },
+                { assert new File(process.out.registrar[0][1].toString()).exists() },
+                { assert process.out.registrar[0][1].toString().endsWith('_registrar.pickle') },
+                { assert snapshot(process.out.transforms).match("cycle2_self_transforms") },
+                { assert snapshot(process.out.versions).match("cycle2_self_versions") }
+            )
+        }
+    }
+
+}

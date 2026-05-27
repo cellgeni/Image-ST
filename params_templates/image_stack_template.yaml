@@ -1,0 +1,27 @@
+cell_diameters: [30]
+chs_to_call_peaks: [1]
+segmentation_method: CELLPOSE
+n_cycle_int:
+  - [id: mouse, 7]
+
+codebook:
+  - [
+      id: mouse,
+      "<codebook_file>.xlsx",
+      "./dummy.txt", # if not merfish-like
+    ]
+image_stack:
+  - [
+      id: mouse,
+      "multi_cycle_multi_channel.ome.tif",
+    ]
+
+importsegmentation:
+  - [
+      "id": mouse,
+      <omero_img_id>:,
+      "wsi-omero-prod-02.internal.sanger.ac.uk",
+      "<spot object name>",
+      "<segmentation object name>",
+      "<folder to save the segmentation zarr>",
+    ]
