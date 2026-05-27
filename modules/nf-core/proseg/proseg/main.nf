@@ -4,8 +4,8 @@ process PROSEG {
 
     conda "${moduleDir}/environment.yml"
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
-        ? 'quay.io/cellgeni/proseg:3.1.0'
-        : 'quay.io/cellgeni/proseg:3.1.0'}"
+        ? 'quay.io/cellgeni/proseg:3.1.1'
+        : 'quay.io/cellgeni/proseg:3.1.1'}"
 
     input:
     tuple val(meta), path(transcripts)
