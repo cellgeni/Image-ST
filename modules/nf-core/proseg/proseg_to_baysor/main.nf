@@ -1,20 +1,19 @@
 process PROSEG_TO_BAYSOR {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/38/38ebf0dd1e071eb5a99fd220459c09625c1465c5491a3e2dab392bfbe8acb45f/data':
-        'community.wave.seqera.io/library/rust-proseg:2.0.5--dde937bdc1cf4715' }"
+    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
+        ? 'quay.io/cellgeni/proseg:3.1.0'
+        : 'quay.io/cellgeni/proseg:3.1.0'}"
 
     input:
-    tuple val(meta), path(transcript_metadata)
-    tuple val(meta2), path(cell_polygons)
+    tuple val(meta), path(sd_zarr)
 
     output:
-    tuple val(meta), path("*baysor-cell-polygons.geojson")  , emit: baysor_cell_polygons
+    tuple val(meta), path("*baysor-cell-polygons.geojson"), emit: baysor_cell_polygons
     tuple val(meta), path("*baysor-transcript-metadata.csv"), emit: baysor_transcript_metadata
-    path "versions.yml"                                     , emit: versions
+    path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -24,8 +23,7 @@ process PROSEG_TO_BAYSOR {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     proseg-to-baysor \\
-        ${transcript_metadata} \\
-        ${cell_polygons} \\
+        ${sd_zarr} \\
         --output-transcript-metadata ${prefix}-baysor-transcript-metadata.csv \\
         --output-cell-polygons ${prefix}-baysor-cell-polygons.geojson \\
         ${args}
