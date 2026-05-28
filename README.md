@@ -1,110 +1,267 @@
-PaSTa is a nextflow-based end-to-end image analysis pipeline for decoding image-based spatial transcriptomics data. It performs imaging cycle registration, cell segmentation and transcripts peak decoding. It is currently supports analysis of three types of ST technology:
+# PaSTa / Image-ST (old name)
 
-- in-situ sequencing-like encoding
+PaSTa is a Nextflow pipeline for image-based spatial transcriptomics analysis. It
+supports end-to-end processing from microscopy images to decoded transcripts,
+cell segmentation, SpatialData output, and optional Vitessce and OMERO export
+artifacts.
+
+The pipeline currently targets:
+
+- in situ sequencing-like encoding
 - MERFISH-like encoding
-- RNAScope-like labelling
+- RNAScope-like labelling or peak counting
 
-Prerequisites:
+Core analysis steps include image registration, tiled segmentation, spot or peak
+calling with Spotiflow, peak profile extraction, transcript decoding with
+PoSTcode, SpatialData conversion, and optional OMERO table import.
 
-1. Nextflow. Installation guide: https://www.nextflow.io/docs/latest/getstarted.html
-2. Docker or Singularity. Installation guide: https://docs.docker.com/get-docker/ or https://sylabs.io/guides/3.7/user-guide/quick_start.html
+## Requirements
 
-## Demo run with GitPod (outdated, but the principal is the same)
+- Nextflow
+- Docker or Singularity
+- Access to the input images and codebook files referenced in the params file
 
-Check this HackMD from I2K2024 workshop: https://hackmd.io/w4DeWEDxRlKwIPTDCc77XA
+Install Nextflow from the official documentation:
+<https://www.nextflow.io/docs/latest/getstarted.html>
 
-## Basic run
+Container runtime installation guides:
 
-## 1. Clone the repository
+- Docker: <https://docs.docker.com/get-docker/>
+- Singularity/Apptainer: <https://apptainer.org/docs/>
 
-```
+## Quick Start
+
+Clone the repository:
+
+```bash
 git clone https://github.com/cellgeni/Image-ST.git
+cd Image-ST
 ```
 
-## 2. Prepare the run.config file (if needed).
+Copy one of the parameter templates and edit it for your data:
 
-update/overwrite the default running parameters and I/O of the job on HPC/Cloud environment. If local, it will use as much as it can in term of resources. \*
-
+```bash
+cp params_templates/image_series_template.yaml params.yaml
 ```
+
+Run the pipeline:
+
+```bash
+nextflow run . \
+  -profile local,docker \
+  --workflow decoding_image_series \
+  -params-file params.yaml \
+  -resume
+```
+
+For HPC runs, replace the profile list with the profiles that match your
+environment, for example:
+
+```bash
+nextflow run . \
+  -profile lsf,singularity \
+  --workflow decoding_image_stack \
+  -params-file params.yaml \
+  -c run.config \
+  -resume
+```
+
+## Workflows
+
+Select the workflow with `--workflow`.
+
+| Workflow | Use case | Main input parameter |
+| --- | --- | --- |
+| `decoding_image_series` | Separated per-cycle images, one file per imaging cycle, that need registration before decoding | `images` |
+| `decoding_image_stack` | Stacked multi-cycle images, with all cycles in one image stack, for decoding | `image_stack` |
+| `peak_counting_image_series` | Peak counting from separated image files | `images` |
+| `peak_counting_image_stack` | Peak counting from stacked images | `image_stack` |
+
+## Parameter Files
+
+Use the templates in `params_templates/` as starting points:
+
+- `image_series_template.yaml`: separated per-cycle image files
+- `image_stack_template.yaml`: stacked multi-cycle image files
+- `template_RNAscope.yaml`: RNAScope-like peak counting input
+
+Typical parameters:
+
+| Parameter | Used by | Purpose | Example |
+| --- | --- | --- | --- |
+| `workflow` | all runs | Selects the pipeline entry point | `decoding_image_series` |
+| `images` | image-series workflows | Sample IDs and separated per-cycle image paths | `[[{ id: sample_1 }, ["cycle1.ome.tif", "cycle2.ome.tif"]]]` |
+| `image_stack` | image-stack workflows | Sample IDs and stacked multi-cycle image paths | `[[{ id: sample_1 }, "multi_cycle_stack.ome.tif"]]` |
+| `codebook` | decoding workflows | Codebook and readout reference files | `[[{ id: sample_1 }, "codebook.xlsx", "./dummy.txt"]]` |
+| `chs_to_call_peaks` | peak calling | Channel indexes used for peak calling | `[1, 2]` |
+| `segmentation_method` | segmentation | Segmentation module to use | `CELLPOSE` |
+| `registration_method` | image-series decoding | Registration method for separated images | `microaligner` or `valis` |
+| `n_cycle_int` | image-stack decoding | Number of imaging cycles in each stack | `[[{ id: sample_1 }, 7]]` |
+| `cell_diameters` | segmentation | Expected cell diameter values for tiled segmentation | `[30]` |
+| `http_base_url` | Vitessce config | Base URL used when generating Vitessce configs | `http://webatlas.cog.sanger.ac.uk/s3` |
+| `importsegmentation` | optional OMERO import | OMERO image and table metadata for importing cells and transcripts | `[[{ id: sample_1 }, 12345, "omero.example.org", "spots", "cells", "./omero_zarr"]]` |
+
+The `id` metadata must match across related inputs for the same sample, such as
+`images`, `image_stack`, `codebook`, `n_cycle_int`, and `importsegmentation`.
+
+Example image-series params:
+
+```yaml
+chs_to_call_peaks: [1]
+registration_method: microaligner
+segmentation_method: CELLPOSE
+
+codebook:
+  - [
+      { id: sample_1 },
+      "codebook.xlsx",
+      "./dummy.txt",
+    ]
+
+images:
+  - [
+      { id: sample_1 },
+      [
+        "cycle1.ome.tif",
+        "cycle2.ome.tif",
+        "cycle3.ome.tif",
+      ],
+    ]
+```
+
+Example image-stack params:
+
+```yaml
+chs_to_call_peaks: [1]
+segmentation_method: CELLPOSE
+
+n_cycle_int:
+  - [{ id: sample_1 }, 7]
+
+codebook:
+  - [
+      { id: sample_1 },
+      "codebook.xlsx",
+      "./dummy.txt",
+    ]
+
+image_stack:
+  - [
+      { id: sample_1 },
+      "multi_cycle_multi_channel.ome.tif",
+    ]
+```
+
+## Runtime Configuration
+
+Use a Nextflow config file such as `run.config` to override resources, process
+arguments, queues, or output locations without editing the pipeline.
+
+Example:
+
+```groovy
 process {
-        withName: POSTCODE {
-                memory = {20.Gb * task.attempt}
-                storeDir = "./output/PoSTcode_decoding_output"
-        }
+  withName: IMAGING_POSTCODE {
+    memory = { 20.GB * task.attempt }
+    ext.args = "--codebook_target_col Gene --codebook_code_col Code --coding_col_prefix 'Readout_*' --min_prob 0.95"
+  }
 
-        withName: TO_SPATIALDATA {
-                memory = {20.Gb * task.attempt}
-                ext.args = "--feature_col 'Name' --expansion_in_pixels 30 --save_label_img False"
-        }
+  withName: TO_SPATIALDATA {
+    memory = { 20.GB * task.attempt }
+    ext.args = "--feature_col 'Name' --expansion_in_pixels 30 --save_label_img False"
+  }
 }
 ```
 
-## 3. Prepare the parameters file for the workflow (e.g. params.yaml).
+Then pass the config with `-c run.config`.
 
-Depending on whether your data is pre-registered. You will need two different types of config file:
+Available profiles are defined in `nextflow.config`:
 
-### 3.1. Stitched, but not registered.
+- `local`: local executor
+- `lsf`: Sanger LSF profile using `conf/sanger.config`
+- `docker`: enable Docker containers
+- `singularity`: enable Singularity containers
+- `tiger` and `cub`: work-in-progress GPU queue presets; these profiles do not
+  currently work
 
-See template in params_templates/image_series_template.yaml
+Profiles can be combined, for example `-profile lsf,singularity`.
 
-### 3.2. Stitched and registered sequentially (i.e. same cycle order as in the codebook).
+## Outputs
 
-See template in params_templates/image_stack_template.yaml
+Pipeline outputs are written under `params.out_dir`, which defaults to
+`./output`. Reports are written under `params.report_dir`, which defaults to
+`./reports`.
 
-## 4. Run the pipeline
+Main outputs include:
 
-Depending on the config file before you should use different pipeline entries:
+- decoded transcript tables from PoSTcode
+- tiled segmentation outputs
+- SpatialData datasets
+- OMERO-compatible cell and transcript tables
+- Vitessce configuration files
+- provenance files from the `nf-prov` plugin:
+  - `bco.json`
+  - `ro-crate-metadata.json`
 
-### 4.1 for stitched and non-registered run:
+To inspect a SpatialData output in napari, install `napari-spatialdata` and run:
 
-```
-nextflow run Image-ST -profile <profiles> --workflow decoding_image_series -params-file ./image_series_template.yaml <-c run.config> -resume
-```
-
-### 4.2 for stitched and registered run:
-
-```
-nextflow run Image-ST -profile <profiles> --workflow decoding_image_stack -params-file ./image_stack_template.yaml <-c run.config> -resume
-```
-
-## 5. Check the output in the specified storeDir.
-
-Spin up Napari with napari-spatialdata plugin installed (https://spatialdata.scverse.org/projects/napari/en/latest/notebooks/spatialdata.html)
-
-Then use the following command to visualize the output
-
-```
-python -m napari_spatialdata view <path_to_dataset>
+```bash
+python -m napari_spatialdata view <path_to_spatialdata_dataset>
 ```
 
-\*: You may leave the process block empty if you want to use the default parameters.
+## Development And Testing
 
-# FAQ
+Modules and subworkflows are organised under:
 
-1. My HOME dir is full when running Singularity image conversion on HPC.
+- `modules/local/`
+- `modules/sanger-cellgeni/`
+- `modules/nf-core/`
+- `subworkflows/local/`
+- `subworkflows/sanger-cellgeni/`
 
-A quick solution is to manually specify singularity dir by setting:
+Many modules include nf-test tests under their `tests/` directories. Run an
+individual test with:
 
+```bash
+nf-test test <path/to/main.nf.test>
 ```
+
+## Troubleshooting
+
+### Singularity cache fills `$HOME`
+
+Set a project-local cache directory before running:
+
+```bash
 singularity cache clean
 export SINGULARITY_CACHEDIR=./singularity_image_dir
 export NXF_SINGULARITY_CACHEDIR=./singularity_image_dir
 ```
 
-2. How do I modify parameters to specific process/step?
+### Process-specific parameters need changing
 
-By following nf-core standard, it is possible to add any parameters to the main script using ext.args=”--[key] [value]” in the run.config file.
+Override module arguments in a Nextflow config file with `ext.args`:
 
-An example is
-
-withName: POSTCODE {
-ext.args = "--codebook_targer_col L-probe --codebook_code_col code "
+```groovy
+process {
+  withName: IMAGING_POSTCODE {
+    ext.args = "--codebook_target_col Gene --codebook_code_col Code"
+  }
 }
+```
 
-3. Cannot download pretrained model for the deep-learning tools (Spotiflow/CellPose)
+### Pretrained model download fails
 
-> Exception: URL fetch failure on https://drive.switch.ch/index.php/s/6AoTEgpIAeQMRvX/download: None -- [Errno -3] Temporary failure in name resolution
-> Or CellPose
-> urllib.error.URLError: <urlopen error [Errno -3] Temporary failure in name resolution>
+Pretrained models for deep-learning tools such as Spotiflow and CellPose should
+already be included in the pipeline containers. If a process still tries to
+download a model at runtime, or fails because a pretrained model is missing,
+please report it as a container or pipeline issue.
 
-Mostly likely you've reached max download (?), wait a bit and try later OR manually download those models and update the configuration file.
+## Citation
+
+If you use this repository, please cite it using the metadata in
+`CITATION.cff`.
+
+## License
+
+This project is distributed under the MIT license. See `LICENSE`.
