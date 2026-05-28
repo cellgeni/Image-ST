@@ -1,10 +1,10 @@
 cff-version: 1.2.0
-message: "If you use this repo, please cite it"
+message: "If you use PaSTa, formerly Image-ST, please cite it"
 authors:
 - family-names: "LI"
   given-names: "Tong"
   orcid: "https://orcid.org/0000-0002-8240-4476"
-title: "A nextflow pipeline to run the end-to-end image-based in-situ sequencing decoding and RNAScope-like analysis"
+title: "PaSTa: a Nextflow pipeline for image-based spatial transcriptomics analysis"
 version: 0.1.1
 date-released: 2024-08-18
 license: MIT
