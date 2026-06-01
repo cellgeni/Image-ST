@@ -8,8 +8,8 @@ process PROSEG {
         : 'quay.io/cellgeni/proseg:3.1.1'}"
 
     input:
-    tuple val(meta), path(transcripts)
-    val mode
+    tuple val(meta), path(transcripts), path(registered_image)
+    val pixel_size
     tuple val(transcript_metadata_fmt), val(cell_metadata_fmt), val(expected_counts_fmt)
 
     output:
@@ -31,13 +31,11 @@ process PROSEG {
     task.ext.when == null || task.ext.when
 
     script:
-    def preset = mode ? "--${mode}" : ''
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}-"
 
     """
     proseg \\
-        ${preset} \\
         ${args} \\
         --output-transcript-metadata ${prefix}transcript-metadata.${transcript_metadata_fmt} \\
         --output-cell-polygons ${prefix}cell-polygons.geojson.gz \\
@@ -45,6 +43,14 @@ process PROSEG {
         --output-expected-counts ${prefix}expected-counts.${expected_counts_fmt} \\
         --output-cell-polygon-layers ${prefix}cell-polygons-layers.geojson.gz \\
         --output-union-cell-polygons ${prefix}cell-polygons-union.geojson.gz \\
+        --gene-column 'Name' \
+        --cell-id-column 'spot_id' \
+        --cell-id-unassigned 'background' \
+        --x-column 'x_int' \
+        --y-column 'y_int' \
+        --z-column 'Z' \
+        --cellpose-masks ${registered_image} \
+        --cellpose-scale ${pixel_size} \\
         --nthreads ${task.cpus} \\
         ${transcripts}
 

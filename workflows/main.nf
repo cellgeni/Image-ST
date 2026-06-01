@@ -11,6 +11,8 @@ include { SPATIAL_GENERATEVITESSCECONFIG } from '../modules/sanger-cellgeni/spat
 include { SPATIALDATA_EXPORTOMEROTABLE } from '../modules/sanger-cellgeni/spatialdata/exportomerotable/main'
 include { OMERO_IMPORTSEGMENTATION } from '../modules/sanger-cellgeni/omero/importsegmentation/main'
 include { VALIS_REGISTRATION } from '../subworkflows/sanger-cellgeni/valis_registration/main'
+include { PROSEG_PRESET_PROSEG2BAYSOR } from '../subworkflows/local/proseg_subprocess'
+include { RASTERIO_RASTERIZE } from '../modules/sanger-cellgeni/rasterio/rasterize/main'
 
 
 workflow DECODE_PEAKS_FROM_IMAGE_SERIES {
@@ -95,9 +97,16 @@ workflow EXTRACT_AND_DECODE {
             ]
         }
     POSTCODE(EXTRACT_PEAK_PROFILE.out.peak_profile.join(codebook).join(n_cycle))
+    RASTERIO_RASTERIZE(
+        TILED_SEGMENTATION.out.geojson.combine(image_stack, by: 0)
+    )
+    PROSEG_PRESET_PROSEG2BAYSOR(
+        RASTERIO_RASTERIZE.out.label_image.combine(EXTRACT_PEAK_PROFILE.out.peak_profile, by: 0),
+        params.pixel_size,
+    )
     // Contrsuct the spatial data object
     TO_SPATIALDATA(
-        POSTCODE.out.decoded_peaks.combine(TILED_SEGMENTATION.out.geojson, by: 0).combine(image_stack, by: 0)
+        POSTCODE.out.decoded_peaks.combine(PROSEG_PRESET_PROSEG2BAYSOR.out.xr_polygons, by: 0).combine(image_stack, by: 0)
     )
     SPATIALDATA_EXPORTOMEROTABLE(TO_SPATIALDATA.out.spatialdata)
     if (params.importsegmentation) {

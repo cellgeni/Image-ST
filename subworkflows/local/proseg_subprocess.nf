@@ -9,7 +9,8 @@ include { PROSEG_TO_BAYSOR } from './../../modules/nf-core/proseg/proseg_to_bays
 
 workflow PROSEG_PRESET_PROSEG2BAYSOR {
     take:
-    ch_transcripts_csv // channel: [ val(meta), [ "transcripts.csv" ] ]
+    ch_label_transcripts_csv // channel: [ val(meta), [ "label", "transcripts.csv" ] ]
+    val_pixel_size
 
     main:
 
@@ -17,8 +18,8 @@ workflow PROSEG_PRESET_PROSEG2BAYSOR {
 
     // run proseg with the bespoke format
     PROSEG(
-        ch_transcripts_csv,
-        null,
+        ch_label_transcripts_csv,
+        val_pixel_size,
         ["parquet", "csv", "csv"],
     )
     ch_versions = ch_versions.mix(PROSEG.out.versions)
