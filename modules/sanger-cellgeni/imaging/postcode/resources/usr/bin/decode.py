@@ -146,9 +146,9 @@ def decode(
     else:
         raise ValueError("spot_locations_p should have 2 or 3 columns")
 
-    assert (
-        spot_locations.shape[0] == spot_profile.shape[0]
-    ), "Number of spots in spot_locations and spot_profile do not match"
+    assert spot_locations.shape[0] == spot_profile.shape[0], (
+        "Number of spots in spot_locations and spot_profile do not match"
+    )
     # Decode using postcode
     out = decoding_function(spot_profile, codebook_arr, print_training_progress=False)
 
@@ -170,6 +170,7 @@ def decode(
 
     decoded_df_s = pd.concat([decoded_spots_df, spot_locations], axis=1)
     decoded_df_s = decoded_df_s[decoded_df_s["Probability"] > min_prob]
+    decoded_df_s["Z"] = 0
 
     if keep_noises:
         decoded_df_s.to_csv(out_name, index=False)

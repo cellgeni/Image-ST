@@ -1,0 +1,72 @@
+name: "imaging_labeltouint32"
+description: Convert an int16, uint16, or int32 TIFF label image to a uint32 NumPy label array.
+keywords:
+  - imaging
+  - labels
+  - tif
+  - npy
+  - uint32
+tools:
+  - "tifffile":
+      description: "Read and write TIFF files in Python."
+      homepage: "https://github.com/cgohlke/tifffile"
+      documentation: "https://github.com/cgohlke/tifffile"
+      tool_dev_url: "https://github.com/cgohlke/tifffile"
+      licence: ["BSD-3-Clause"]
+  - "numpy":
+      description: "Fundamental package for array computing in Python."
+      homepage: "https://numpy.org"
+      documentation: "https://numpy.org/doc/"
+      tool_dev_url: "https://github.com/numpy/numpy"
+      licence: ["BSD-3-Clause"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - label_image:
+        type: file
+        description: int16, uint16, or int32 TIFF label image to convert.
+        pattern: "*.{tif,tiff}"
+
+output:
+  label_image:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_uint32_labels.npy":
+          type: file
+          description: uint32 .npy label array.
+          pattern: "*_uint32_labels.npy"
+
+  versions_labeltouint32:
+    - - "${task.process}":
+          type: string
+          description: The name of the process.
+      - "numpy":
+          type: string
+          description: The name of the tool.
+      - "python -c \"import numpy; print(numpy.__version__)\"":
+          type: eval
+          description: The expression to obtain the version of numpy.
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process.
+      - numpy:
+          type: string
+          description: The name of the tool.
+      - python -c "import numpy; print(numpy.__version__)":
+          type: eval
+          description: The expression to obtain the version of numpy.
+
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

@@ -1,0 +1,114 @@
+nextflow_process {
+
+    name "Test Process IMAGING_LABELTOUINT32"
+    script "../main.nf"
+    process "IMAGING_LABELTOUINT32"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_local"
+    tag "imaging"
+    tag "imaging/labeltouint32"
+
+    test("int32 tiff labels") {
+
+        when {
+            process {
+                """
+                def label_file = file("int32_labels.tif")
+                label_file.bytes = "SUkqAAgAAAAPAAABBAABAAAAAwAAAAEBBAABAAAAAgAAAAIBAwABAAAAIAAAAAMBAwABAAAAAQAAAAYBAwABAAAAAQAAAA4BAgASAAAAwgAAABEBBAABAAAAAAEAABUBAwABAAAAAQAAABYBBAABAAAAAgAAABcBBAABAAAAGAAAABoBBQABAAAA5AAAABsBBQABAAAA7AAAACgBAwABAAAAAQAAADEBAgAMAAAA9AAAAFMBAwABAAAAAgAAAAAAAAB7InNoYXBlIjogWzIsIDNdfQAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAABAAAAAQAAAHRpZmZmaWxlLnB5AAAAAAABAAAAAgAAAAMAAADoAwAA////fw==".decodeBase64()
+
+                input[0] = [
+                    [ id: 'test' ],
+                    label_file
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.label_image[0][1].toString().endsWith('test_uint32_labels.npy') },
+                { assert snapshot(process.out.versions_labeltouint32).match() }
+            )
+        }
+    }
+
+    test("int16 tiff labels") {
+
+        when {
+            process {
+                """
+                def label_file = file("int16_labels.tif")
+                label_file.bytes = "SUkqAAgAAAAPAAABBAABAAAAAwAAAAEBBAABAAAAAgAAAAIBAwABAAAAEAAAAAMBAwABAAAAAQAAAAYBAwABAAAAAQAAAA4BAgASAAAAwgAAABEBBAABAAAAAAEAABUBAwABAAAAAQAAABYBBAABAAAAAgAAABcBBAABAAAADAAAABoBBQABAAAA5AAAABsBBQABAAAA7AAAACgBAwABAAAAAQAAADEBAgAMAAAA9AAAAFMBAwABAAAAAgAAAAAAAAB7InNoYXBlIjogWzIsIDNdfQAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAABAAAAAQAAAHRpZmZmaWxlLnB5AAAAAQACAAMA6AP/fw==".decodeBase64()
+
+                input[0] = [
+                    [ id: 'test_int16' ],
+                    label_file
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.label_image[0][1].toString().endsWith('test_int16_uint32_labels.npy') },
+                { assert snapshot(process.out.versions_labeltouint32).match() }
+            )
+        }
+    }
+
+    test("uint16 tiff labels") {
+
+        when {
+            process {
+                """
+                def label_file = file("uint16_labels.tif")
+                label_file.bytes = "SUkqAAgAAAAOAAABBAABAAAAAwAAAAEBBAABAAAAAgAAAAIBAwABAAAAEAAAAAMBAwABAAAAAQAAAAYBAwABAAAAAQAAAA4BAgASAAAAtgAAABEBBAABAAAAAAEAABUBAwABAAAAAQAAABYBBAABAAAAAgAAABcBBAABAAAADAAAABoBBQABAAAA2AAAABsBBQABAAAA4AAAACgBAwABAAAAAQAAADEBAgAMAAAA6AAAAAAAAAB7InNoYXBlIjogWzIsIDNdfQAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAABAAAAAQAAAHRpZmZmaWxlLnB5AAAAAAAAAAAAAAAAAAAAAQACAAMA6AP//w==".decodeBase64()
+
+                input[0] = [
+                    [ id: 'test_uint16' ],
+                    label_file
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.label_image[0][1].toString().endsWith('test_uint16_uint32_labels.npy') },
+                { assert snapshot(process.out.versions_labeltouint32).match() }
+            )
+        }
+    }
+
+    test("int32 tiff labels - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                def label_file = file("int32_labels.tif")
+                label_file.text = "stub"
+
+                input[0] = [
+                    [ id: 'test' ],
+                    label_file
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.label_image[0][1].toString().endsWith('test_uint32_labels.npy') },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

@@ -166,3 +166,4 @@ cython_debug/
 output*
 work/*
 *html
+.nf-test/*

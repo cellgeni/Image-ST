@@ -13,6 +13,7 @@ include { OMERO_IMPORTSEGMENTATION } from '../modules/sanger-cellgeni/omero/impo
 include { VALIS_REGISTRATION } from '../subworkflows/sanger-cellgeni/valis_registration/main'
 include { PROSEG_PRESET_PROSEG2BAYSOR } from '../subworkflows/local/proseg_subprocess'
 include { RASTERIO_RASTERIZE } from '../modules/sanger-cellgeni/rasterio/rasterize/main'
+include { IMAGING_LABELTOUINT32 } from '../modules/local/imaging/labeltouint32/main'
 
 
 workflow DECODE_PEAKS_FROM_IMAGE_SERIES {
@@ -100,8 +101,9 @@ workflow EXTRACT_AND_DECODE {
     RASTERIO_RASTERIZE(
         TILED_SEGMENTATION.out.geojson.combine(image_stack, by: 0)
     )
+    IMAGING_LABELTOUINT32(RASTERIO_RASTERIZE.out.label_image)
     PROSEG_PRESET_PROSEG2BAYSOR(
-        POSTCODE.out.decoded_peaks.combine(RASTERIO_RASTERIZE.out.label_image, by: 0),
+        POSTCODE.out.decoded_peaks.combine(IMAGING_LABELTOUINT32.out.label_image, by: 0),
         params.pixel_size,
     )
     // Contrsuct the spatial data object
