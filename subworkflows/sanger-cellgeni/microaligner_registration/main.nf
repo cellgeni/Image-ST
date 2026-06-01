@@ -1,12 +1,5 @@
 #!/usr/bin/env/ nextflow
 
-include { IMAGING_MICROALIGNER } from '../../../modules/sanger-cellgeni/imaging/microaligner/main'
-
-params.referece_channel = "DAPI"
-params.reference_cycle = 1
-
-params.debug = true
-
 include { IMAGING_MICROALIGNER as MICROALIGNER_FEATREG ; IMAGING_MICROALIGNER as MICROALIGNER_OPTFLOWREG } from '../../../modules/sanger-cellgeni/imaging/microaligner/main'
 
 
@@ -22,6 +15,7 @@ process GENERATE_FEAT_REG_YAML {
     tuple val(meta), path("${meta.id}_feat_reg.yaml")
 
     script:
+    def reference_channel = params.reference_channel ?: params.referece_channel
     def cycles_str = ""
     cycle_paths = images.eachWithIndex { img, i ->
         cycles_str += "        Cycle ${i + 1}: ./${img}\n    "
@@ -36,7 +30,7 @@ process GENERATE_FEAT_REG_YAML {
         InputImagePaths:
     ${cycles_str}
         ReferenceCycle: ${params.reference_cycle}
-        ReferenceChannel: ${params.referece_channel}
+        ReferenceChannel: ${reference_channel}
 
     # Output
     # Images will be saved to a directory
@@ -82,6 +76,7 @@ process GENERATE_OPTFLOW_REG_YAML {
     tuple val(meta), path("${meta.id}_optflow_reg.yaml")
 
     script:
+    def reference_channel = params.reference_channel ?: params.referece_channel
     """
     echo "# Input
     # If your input image is a stack that contains channels from all cycles
@@ -90,7 +85,7 @@ process GENERATE_OPTFLOW_REG_YAML {
         InputImagePaths:
             CycleStack: ${meta.id}_feature_reg_result_stack.tif
         ReferenceCycle: ${params.reference_cycle}
-        ReferenceChannel: ${params.referece_channel}
+        ReferenceChannel: ${reference_channel}
 
     # Output
     # Images will be saved to a directory
