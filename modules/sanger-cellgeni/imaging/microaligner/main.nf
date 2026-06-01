@@ -1,5 +1,3 @@
-params.debug = false
-
 process IMAGING_MICROALIGNER {
     tag "${meta.id}"
     label 'process_large'
