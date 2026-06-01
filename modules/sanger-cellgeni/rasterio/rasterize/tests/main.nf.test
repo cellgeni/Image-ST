@@ -1,0 +1,45 @@
+nextflow_process {
+
+    name "Test Process RASTERIO_RASTERIZE"
+    script "../main.nf"
+    process "RASTERIO_RASTERIZE"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_sanger-cellgeni"
+    tag "rasterio"
+    tag "rasterio/rasterize"
+
+    test("rasterize - geojson - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                def geojson_content = '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"cell_id":1},"geometry":{"type":"Polygon","coordinates":[[[0,0],[0,100],[100,100],[100,0],[0,0]]]}}]}'
+                def geojson_file = file("test_cells.geojson")
+                geojson_file.text = geojson_content
+
+                def ref_file = file("reference.tif")
+                ref_file.text = "stub"
+
+                input[0] = [
+                    [ id: 'test' ],
+                    geojson_file,
+                    ref_file
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert process.out.label_image[0][1].toString().endsWith('test_labels.tif') },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+}

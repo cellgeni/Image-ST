@@ -1,0 +1,73 @@
+name: "rasterio_rasterize"
+description: Rasterize GeoJSON features into a label GeoTIFF using the rasterio CLI.
+keywords:
+  - rasterio
+  - geojson
+  - rasterize
+  - label
+  - geotiff
+tools:
+  - "rasterio":
+      description: "Python library and CLI for reading and writing geospatial raster datasets."
+      homepage: "https://rasterio.readthedocs.io"
+      documentation: "https://rasterio.readthedocs.io/en/latest/cli.html#rasterize"
+      tool_dev_url: "https://github.com/rasterio/rasterio"
+      licence: ["BSD-3-Clause"]
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - geojson:
+        type: file
+        description: GeoJSON file containing features to rasterize.
+        pattern: "*.geojson"
+    - reference_image:
+        type: file
+        description: |
+          Reference raster (e.g. morphology TIFF) used to inherit CRS, extent,
+          and resolution via --like. Required to avoid EPSG:4326 bounds errors
+          when coordinates are in pixel or micron space.
+        pattern: "*.tif"
+
+output:
+  label_image:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "*_labels.tif":
+          type: file
+          description: Rasterized label image in GeoTIFF format.
+          pattern: "*_labels.tif"
+
+  versions_rasterio_rasterize:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "rasterio":
+          type: string
+          description: The name of the tool
+      - "rio --version | sed 's/rio, version //'":
+          type: eval
+          description: The expression to obtain the version of rasterio
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - rasterio:
+          type: string
+          description: The name of the tool
+      - rio --version | sed 's/rio, version //':
+          type: eval
+          description: The expression to obtain the version of rasterio
+
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

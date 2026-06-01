@@ -1,142 +1,198 @@
 {
-  "name": "",
-  "homePage": "",
-  "repos": {
-    "https://github.com/cellgeni/nf-modules.git": {
-      "modules": {
-        "sanger-cellgeni": {
-          "imaging/cellpose": {
-            "branch": "develop",
-            "git_sha": "2107017ee52361c8a11c924e5669eaf4b6a49b22",
-            "installed_by": ["tiled_segmentation"]
-          },
-          "imaging/concatenatewkts": {
-            "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
-            "installed_by": ["tiled_spotiflow"]
-          },
-          "imaging/deepcell": {
-            "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
-            "installed_by": ["tiled_segmentation"]
-          },
-          "imaging/extractpeakprofile": {
-            "branch": "main",
-            "git_sha": "e2ae84ad941150bd063e0a35af80eaa9d3cf9d22",
-            "installed_by": ["modules"]
-          },
-          "imaging/generatetiles": {
-            "branch": "develop",
-            "git_sha": "786a78363e8e46721bc9a4a95111a83e5c3fec3c",
-            "installed_by": ["tiled_segmentation", "tiled_spotiflow"]
-          },
-          "imaging/instanseg": {
-            "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
-            "installed_by": ["tiled_segmentation"]
-          },
-          "imaging/mergeoutlines": {
-            "branch": "develop",
-            "git_sha": "87187ee59e0d2cbb790bc1c46b28e79950aad43e",
-            "installed_by": ["tiled_segmentation"]
-          },
-          "imaging/mergepeaks": {
-            "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
-            "installed_by": ["tiled_spotiflow"]
-          },
-          "imaging/microaligner": {
-            "branch": "develop",
-            "git_sha": "eb9b34563279363acd2a6f38fe75a43658ceb0e8",
-            "installed_by": ["microaligner_registration"]
-          },
-          "imaging/postcode": {
-            "branch": "main",
-            "git_sha": "16d631eb9cd8180d6381c609374fbf3f52f4dfda",
-            "installed_by": ["modules"]
-          },
-          "imaging/stardist": {
-            "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
-            "installed_by": ["tiled_segmentation"]
-          },
-          "imaging/tiledspotiflow": {
-            "branch": "develop",
-            "git_sha": "e020ecfe340a0b22a0aad36db6ffa631dd0a3275",
-            "installed_by": ["tiled_spotiflow"]
-          },
-          "omero/importsegmentation": {
-            "branch": "develop",
-            "git_sha": "a6f71f51bf4868888d90d9e14a18b6809e021b0a",
-            "installed_by": ["modules"]
-          },
-          "spatial/generatevitessceconfig": {
-            "branch": "develop",
-            "git_sha": "3760eae3a82921a435a3a8feb9d3de41d057e91d",
-            "installed_by": ["modules"]
-          },
-          "spatialdata/exportomerotable": {
-            "branch": "develop",
-            "git_sha": "39e811404401473be144e514ef79a04da99a37d5",
-            "installed_by": ["modules"]
-          },
-          "valis/merge": {
-            "branch": "develop",
-            "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
-            "installed_by": ["valis_registration"]
-          },
-          "valis/register": {
-            "branch": "develop",
-            "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
-            "installed_by": ["valis_registration"]
-          },
-          "valis/warp": {
-            "branch": "develop",
-            "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
-            "installed_by": ["valis_registration"]
-          }
+    "name": "",
+    "homePage": "",
+    "repos": {
+        "https://github.com/cellgeni/nf-modules.git": {
+            "modules": {
+                "sanger-cellgeni": {
+                    "imaging/cellpose": {
+                        "branch": "develop",
+                        "git_sha": "2107017ee52361c8a11c924e5669eaf4b6a49b22",
+                        "installed_by": [
+                            "tiled_segmentation"
+                        ]
+                    },
+                    "imaging/concatenatewkts": {
+                        "branch": "develop",
+                        "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+                        "installed_by": [
+                            "tiled_spotiflow"
+                        ]
+                    },
+                    "imaging/deepcell": {
+                        "branch": "develop",
+                        "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+                        "installed_by": [
+                            "tiled_segmentation"
+                        ]
+                    },
+                    "imaging/extractpeakprofile": {
+                        "branch": "main",
+                        "git_sha": "e2ae84ad941150bd063e0a35af80eaa9d3cf9d22",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "imaging/generatetiles": {
+                        "branch": "develop",
+                        "git_sha": "786a78363e8e46721bc9a4a95111a83e5c3fec3c",
+                        "installed_by": [
+                            "tiled_segmentation",
+                            "tiled_spotiflow"
+                        ]
+                    },
+                    "imaging/instanseg": {
+                        "branch": "develop",
+                        "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+                        "installed_by": [
+                            "tiled_segmentation"
+                        ]
+                    },
+                    "imaging/mergeoutlines": {
+                        "branch": "develop",
+                        "git_sha": "87187ee59e0d2cbb790bc1c46b28e79950aad43e",
+                        "installed_by": [
+                            "tiled_segmentation"
+                        ]
+                    },
+                    "imaging/mergepeaks": {
+                        "branch": "develop",
+                        "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+                        "installed_by": [
+                            "tiled_spotiflow"
+                        ]
+                    },
+                    "imaging/microaligner": {
+                        "branch": "develop",
+                        "git_sha": "eb9b34563279363acd2a6f38fe75a43658ceb0e8",
+                        "installed_by": [
+                            "microaligner_registration"
+                        ]
+                    },
+                    "imaging/postcode": {
+                        "branch": "main",
+                        "git_sha": "16d631eb9cd8180d6381c609374fbf3f52f4dfda",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "imaging/stardist": {
+                        "branch": "develop",
+                        "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+                        "installed_by": [
+                            "tiled_segmentation"
+                        ]
+                    },
+                    "imaging/tiledspotiflow": {
+                        "branch": "develop",
+                        "git_sha": "e020ecfe340a0b22a0aad36db6ffa631dd0a3275",
+                        "installed_by": [
+                            "tiled_spotiflow"
+                        ]
+                    },
+                    "omero/importsegmentation": {
+                        "branch": "develop",
+                        "git_sha": "a6f71f51bf4868888d90d9e14a18b6809e021b0a",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "rasterio/rasterize": {
+                        "branch": "develop",
+                        "git_sha": "602023defe5f9bbff566079fcd520b988a845419",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "spatial/generatevitessceconfig": {
+                        "branch": "develop",
+                        "git_sha": "3760eae3a82921a435a3a8feb9d3de41d057e91d",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "spatialdata/exportomerotable": {
+                        "branch": "develop",
+                        "git_sha": "39e811404401473be144e514ef79a04da99a37d5",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "valis/merge": {
+                        "branch": "develop",
+                        "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
+                        "installed_by": [
+                            "valis_registration"
+                        ]
+                    },
+                    "valis/register": {
+                        "branch": "develop",
+                        "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
+                        "installed_by": [
+                            "valis_registration"
+                        ]
+                    },
+                    "valis/warp": {
+                        "branch": "develop",
+                        "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
+                        "installed_by": [
+                            "valis_registration"
+                        ]
+                    }
+                }
+            },
+            "subworkflows": {
+                "sanger-cellgeni": {
+                    "microaligner_registration": {
+                        "branch": "main",
+                        "git_sha": "16d631eb9cd8180d6381c609374fbf3f52f4dfda",
+                        "installed_by": [
+                            "subworkflows"
+                        ]
+                    },
+                    "tiled_segmentation": {
+                        "branch": "develop",
+                        "git_sha": "362d941052ce681feadd891da300ada01b03a1cf",
+                        "installed_by": [
+                            "subworkflows"
+                        ]
+                    },
+                    "tiled_spotiflow": {
+                        "branch": "develop",
+                        "git_sha": "362d941052ce681feadd891da300ada01b03a1cf",
+                        "installed_by": [
+                            "subworkflows"
+                        ]
+                    },
+                    "valis_registration": {
+                        "branch": "develop",
+                        "git_sha": "b3909d5c156bca66ab7577e10d8c0961413ad5a8",
+                        "installed_by": [
+                            "subworkflows"
+                        ]
+                    }
+                }
+            }
+        },
+        "https://github.com/nf-core/modules.git": {
+            "modules": {
+                "nf-core": {
+                    "proseg/proseg": {
+                        "branch": "master",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "proseg/proseg_to_baysor": {
+                        "branch": "master",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    }
+                }
+            }
         }
-      },
-      "subworkflows": {
-        "sanger-cellgeni": {
-          "microaligner_registration": {
-            "branch": "main",
-            "git_sha": "16d631eb9cd8180d6381c609374fbf3f52f4dfda",
-            "installed_by": ["subworkflows"]
-          },
-          "tiled_segmentation": {
-            "branch": "develop",
-            "git_sha": "362d941052ce681feadd891da300ada01b03a1cf",
-            "installed_by": ["subworkflows"]
-          },
-          "tiled_spotiflow": {
-            "branch": "develop",
-            "git_sha": "362d941052ce681feadd891da300ada01b03a1cf",
-            "installed_by": ["subworkflows"]
-          },
-          "valis_registration": {
-            "branch": "develop",
-            "git_sha": "b3909d5c156bca66ab7577e10d8c0961413ad5a8",
-            "installed_by": ["subworkflows"]
-          }
-        }
-      }
-    },
-    "https://github.com/nf-core/modules.git": {
-      "modules": {
-        "nf-core": {
-          "proseg/proseg": {
-            "branch": "master",
-            "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
-            "installed_by": ["modules"]
-          },
-          "proseg/proseg_to_baysor": {
-            "branch": "master",
-            "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
-            "installed_by": ["modules"]
-          }
-        }
-      }
     }
-  }
 }
