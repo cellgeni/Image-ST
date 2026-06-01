@@ -9,7 +9,7 @@ include { PROSEG_TO_BAYSOR } from './../../modules/nf-core/proseg/proseg_to_bays
 
 workflow PROSEG_PRESET_PROSEG2BAYSOR {
     take:
-    ch_label_transcripts_csv // channel: [ val(meta), [ "label", "transcripts.csv" ] ]
+    ch_label_transcripts_csv // channel: [ val(meta), ["transcripts.csv", "label" ] ]
     val_pixel_size
 
     main:

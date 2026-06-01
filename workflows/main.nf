@@ -101,7 +101,7 @@ workflow EXTRACT_AND_DECODE {
         TILED_SEGMENTATION.out.geojson.combine(image_stack, by: 0)
     )
     PROSEG_PRESET_PROSEG2BAYSOR(
-        RASTERIO_RASTERIZE.out.label_image.combine(EXTRACT_PEAK_PROFILE.out.peak_profile, by: 0),
+        POSTCODE.out.decoded_peaks.combine(RASTERIO_RASTERIZE.out.label_image, by: 0),
         params.pixel_size,
     )
     // Contrsuct the spatial data object

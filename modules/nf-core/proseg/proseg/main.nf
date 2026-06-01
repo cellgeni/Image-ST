@@ -8,7 +8,7 @@ process PROSEG {
         : 'quay.io/cellgeni/proseg:3.1.1'}"
 
     input:
-    tuple val(meta), path(transcripts), path(registered_image)
+    tuple val(meta), path(transcripts), path(label_image)
     val pixel_size
     tuple val(transcript_metadata_fmt), val(cell_metadata_fmt), val(expected_counts_fmt)
 
@@ -49,7 +49,7 @@ process PROSEG {
         --x-column 'x_int' \
         --y-column 'y_int' \
         --z-column 'Z' \
-        --cellpose-masks ${registered_image} \
+        --cellpose-masks ${label_image} \
         --cellpose-scale ${pixel_size} \\
         --nthreads ${task.cpus} \\
         ${transcripts}
