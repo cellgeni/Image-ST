@@ -62,7 +62,7 @@
           },
           "imaging/tiledspotiflow": {
             "branch": "develop",
-            "git_sha": "e020ecfe340a0b22a0aad36db6ffa631dd0a3275",
+            "git_sha": "f89e05388f0315edb1b743b59cad740ccc054809",
             "installed_by": ["tiled_spotiflow"]
           },
           "omero/importsegmentation": {
