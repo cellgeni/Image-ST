@@ -1,16 +1,16 @@
 #!/usr/bin/env/ nextflow
 
-include { REGISTER_AS_SPATIALDATA } from '../subworkflows/local/registration'
-include { MICRO_ALIGNER_REGISTRATION } from '../subworkflows/sanger-cellgeni/microaligner_registration/main'
-include { TILED_SEGMENTATION } from '../subworkflows/sanger-cellgeni/tiled_segmentation/main'
-include { TILED_SPOTIFLOW } from '../subworkflows/sanger-cellgeni/tiled_spotiflow/main'
+include { REGISTER_AS_SPATIALDATA                            } from '../subworkflows/local/registration'
+include { MICRO_ALIGNER_REGISTRATION                         } from '../subworkflows/sanger-cellgeni/microaligner_registration/main'
+include { TILED_SEGMENTATION                                 } from '../subworkflows/sanger-cellgeni/tiled_segmentation/main'
+include { TILED_SPOTIFLOW                                    } from '../subworkflows/sanger-cellgeni/tiled_spotiflow/main'
 include { IMAGING_EXTRACTPEAKPROFILE as EXTRACT_PEAK_PROFILE } from '../modules/sanger-cellgeni/imaging/extractpeakprofile/main'
-include { IMAGING_POSTCODE as POSTCODE } from '../modules/sanger-cellgeni/imaging/postcode/main'
-include { TO_SPATIALDATA } from '../modules/local/to_spatialdata'
-include { SPATIAL_GENERATEVITESSCECONFIG } from '../modules/sanger-cellgeni/spatial/generatevitessceconfig/main'
-include { SPATIALDATA_EXPORTOMEROTABLE } from '../modules/sanger-cellgeni/spatialdata/exportomerotable/main'
-include { OMERO_IMPORTSEGMENTATION } from '../modules/sanger-cellgeni/omero/importsegmentation/main'
-include { VALIS_REGISTRATION } from '../subworkflows/sanger-cellgeni/valis_registration/main'
+include { IMAGING_POSTCODE as POSTCODE                       } from '../modules/sanger-cellgeni/imaging/postcode/main'
+include { TO_SPATIALDATA                                     } from '../modules/local/to_spatialdata'
+include { SPATIAL_GENERATEVITESSCECONFIG                     } from '../modules/sanger-cellgeni/spatial/generatevitessceconfig/main'
+include { SPATIALDATA_EXPORTOMEROTABLE                       } from '../modules/sanger-cellgeni/spatialdata/exportomerotable/main'
+include { OMERO_IMPORTSEGMENTATION                           } from '../modules/sanger-cellgeni/omero/importsegmentation/main'
+include { VALIS_REGISTRATION                                 } from '../subworkflows/sanger-cellgeni/valis_registration/main'
 
 
 workflow DECODE_PEAKS_FROM_IMAGE_SERIES {
@@ -130,6 +130,6 @@ workflow EXTRACT_AND_DECODE {
     )
 
     emit:
-    spatialdata = TO_SPATIALDATA.out.spatialdata // channel: [ val(meta), [ spatialdata ] ]
+    spatialdata     = TO_SPATIALDATA.out.spatialdata // channel: [ val(meta), [ spatialdata ] ]
     vitessce_config = SPATIAL_GENERATEVITESSCECONFIG.out.vitessce_config // channel: [ val(meta), path(vitessce_config) ]
 }
