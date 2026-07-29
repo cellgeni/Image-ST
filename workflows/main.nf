@@ -111,7 +111,7 @@ workflow EXTRACT_AND_DECODE {
             }
         def importsegTranscriptsInput = SPATIALDATA_EXPORTOMEROTABLE.out.transcripts_csv
             .combine(channel.from(params.importsegmentation), by: 0)
-            .filter { meta, csv, image_id, host, table_name, roi_name, out_dir ->
+            .filter { _meta, _csv, image_id, host, table_name, roi_name, out_dir ->
                 [image_id, host, table_name, roi_name, out_dir].every { it -> it != null && it.toString().trim() }
             }
             .map { meta, csv, image_id, host, table_name, roi_name, out_dir ->
