@@ -126,15 +126,23 @@ def main(
         expanded_polys = {}
         for prop in regionprops(mask):
             r0, c0, r1, c1 = prop.bbox
-            r0p = max(0, r0 - 1); c0p = max(0, c0 - 1)
-            r1p = min(mask.shape[0], r1 + 1); c1p = min(mask.shape[1], c1 + 1)
-            contours = find_contours((mask[r0p:r1p, c0p:c1p] == prop.label).astype(np.uint8), level=0.5)
+            r0p = max(0, r0 - 1)
+            c0p = max(0, c0 - 1)
+            r1p = min(mask.shape[0], r1 + 1)
+            c1p = min(mask.shape[1], c1 + 1)
+            contours = find_contours(
+                (mask[r0p:r1p, c0p:c1p] == prop.label).astype(np.uint8), level=0.5
+            )
             if not contours:
                 continue
             contour = max(contours, key=len)
-            expanded_polys[prop.label] = Polygon([(c[1] + c0p, c[0] + r0p) for c in contour])
+            expanded_polys[prop.label] = Polygon(
+                [(c[1] + c0p, c[0] + r0p) for c in contour]
+            )
         ids = sorted(expanded_polys.keys())
-        expanded_df = GeoDataFrame({"instance_id": ids, "geometry": [expanded_polys[i] for i in ids]})
+        expanded_df = GeoDataFrame(
+            {"instance_id": ids, "geometry": [expanded_polys[i] for i in ids]}
+        )
         sdata["cell_shapes_expanded"] = ShapesModel.parse(expanded_df)
     else:
         lab_img = np.array(cell_labels.data)
@@ -165,7 +173,7 @@ def main(
     count_matrix = spots.pivot_table(
         index="cell_id", columns=feature_col, aggfunc="size", fill_value=0
     )
-    count_matrix = count_matrix.drop(count_matrix[count_matrix.index == 0].index)
+    # count_matrix = count_matrix.drop(count_matrix[count_matrix.index == 0].index)
     count_matrix["num_cells"] = np.max(lab_img)
     count_matrix["num_spots"] = spots.shape[0]
     count_matrix.to_csv(out_name.replace(".sdata", "_count_matrix.csv"))
