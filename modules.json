@@ -47,7 +47,7 @@
           },
           "imaging/microaligner": {
             "branch": "develop",
-            "git_sha": "eb9b34563279363acd2a6f38fe75a43658ceb0e8",
+            "git_sha": "7d164bce3c2e008dbd995e121f0abde8cb6f6c03",
             "installed_by": ["microaligner_registration"]
           },
           "imaging/postcode": {
@@ -100,8 +100,8 @@
       "subworkflows": {
         "sanger-cellgeni": {
           "microaligner_registration": {
-            "branch": "main",
-            "git_sha": "16d631eb9cd8180d6381c609374fbf3f52f4dfda",
+            "branch": "develop",
+            "git_sha": "9cd50754c83065e2c1e4632d73521b457e51901d",
             "installed_by": ["subworkflows"]
           },
           "tiled_segmentation": {

@@ -1,55 +1,74 @@
----
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "imaging_microaligner"
-## TODO nf-core: Add a description of the module and list keywords
-description: write your description here
+description: Register multi-cycle microscopy images using feature-based and optical flow methods.
 keywords:
-  - sort
-  - example
-  - genomics
+  - imaging
+  - registration
+  - microscopy
+  - alignment
 tools:
-  - "imaging":
-      ## TODO nf-core: Add a description and other details for the software below
-      description: ""
-      homepage: ""
-      documentation: ""
-      tool_dev_url: ""
-      doi: ""
-      licence: ""
+  - "microaligner":
+      description: "Automated registration of large-scale multi-cycle microscopy images using feature-based and optical flow methods."
+      homepage: "https://github.com/VasylVaskivskyi/microaligner"
+      documentation: "https://github.com/VasylVaskivskyi/microaligner"
+      tool_dev_url: "https://github.com/VasylVaskivskyi/microaligner"
+      licence:
+        - "GPL-3.0"
 
-## TODO nf-core: Add a description of all of the variables used as input
 input:
-  # Only when we have meta
-  - meta:
-      type: map
-      description: |
-        Groovy Map containing sample information
-        e.g. `[ id:'test', single_end:false ]`
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - config:
+        type: file
+        description: MicroAligner YAML configuration file describing registration parameters and inputs.
+        pattern: "*.{yml,yaml}"
+    - images:
+        type: file
+        description: Image files referenced by the configuration file to be registered.
+  - - method:
+        type: string
+        description: Registration method to run, e.g. `feature` or `optflow`.
 
-  ## TODO nf-core: Delete / customise this example input
-  - bam:
-      type: file
-      description: Sorted BAM/CRAM/SAM file
-      pattern: "*.{bam,cram,sam}"
-
-## TODO nf-core: Add a description of all of the variables used as output
 output:
-  #Only when we have meta
-  - meta:
-      type: map
-      description: |
-        Groovy Map containing sample information
-        e.g. `[ id:'test', single_end:false ]`
+  registered_image:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "${prefix}_${method}_reg_result_stack.tif":
+          type: file
+          description: Registered image stack produced by MicroAligner.
+          pattern: "*_reg_result_stack.tif"
 
-  - versions:
-      type: file
-      description: File containing software versions
-      pattern: "versions.yml"
-  ## TODO nf-core: Delete / customise this example output
-  - bam:
-      type: file
-      description: Sorted BAM/CRAM/SAM file
-      pattern: "*.{bam,cram,sam}"
+  versions_microaligner:
+    - - "${task.process}":
+          type: string
+          description: The name of the process
+      - "microaligner":
+          type: string
+          description: The name of the tool
+      - "microaligner --version 2>&1 | sed 's/^.*microaligner //; s/Using.*$//'":
+          type: eval
+          description: The expression to obtain the tool version
+
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - microaligner:
+          type: string
+          description: The name of the tool
+      - microaligner --version 2>&1 | sed 's/^.*microaligner //; s/Using.*$//':
+          type: eval
+          description: The expression to obtain the tool version
 
 authors:
+  - "@VasylVaskivskyi"
+  - "@BioinfoTongLI"
+maintainers:
   - "@BioinfoTongLI"
