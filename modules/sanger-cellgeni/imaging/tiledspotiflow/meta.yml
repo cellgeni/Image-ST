@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "imaging_tiledspotiflow"
 description: run spotiflow on tiled data
 keywords:
@@ -19,17 +18,17 @@ tools:
 
 input:
   - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'sample1']`
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. `[ id:'sample1']`
 
   - imgs:
       type: file
       description: raw images for segmentation
       pattern: "*.{ome.tif}"
-        ontologies:
-          - edam: "http://edamontology.org/format_3727"
+      ontologies:
+        - edam: "http://edamontology.org/format_3727"
 
   - bounding_box:
       type: int
@@ -39,28 +38,27 @@ input:
       type: int
       description: channel index for peak calling
 
-
 output:
   - bam:
-  #Only when we have meta
-    - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'sample1']`
+      #Only when we have meta
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1']`
 
-    - "*.csv":
-        type: file
-        description: Peak locations
-        pattern: "*.csv"
-        ontologies:
-          - edam: "http://edamontology.org/format_3752"
+      - "*.csv":
+          type: file
+          description: Peak locations
+          pattern: "*.csv"
+          ontologies:
+            - edam: "http://edamontology.org/format_3752"
 
   - versions:
-    - "versions.yml":
-        type: file
-        description: File containing software versions
-        pattern: "versions.yml"
+      - "versions.yml":
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
 
 authors:
   - "@BioinfoTongLI"

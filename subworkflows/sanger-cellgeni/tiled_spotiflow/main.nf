@@ -1,8 +1,8 @@
 #!/usr/bin/env/ nextflow
 include { IMAGING_GENERATETILES as GENERATE_TILE_COORDS } from '../../../modules/sanger-cellgeni/imaging/generatetiles/main'
-include { IMAGING_TILEDSPOTIFLOW as SPOTIFLOW } from '../../../modules/sanger-cellgeni/imaging/tiledspotiflow/main'
-include { IMAGING_MERGEPEAKS as MERGEPEAKS } from '../../../modules/sanger-cellgeni/imaging/mergepeaks/main'
-include { IMAGING_CONCATENATEWKTS as CONCATENATEWKTS } from '../../../modules/sanger-cellgeni/imaging/concatenatewkts/main'
+include { IMAGING_TILEDSPOTIFLOW as SPOTIFLOW           } from '../../../modules/sanger-cellgeni/imaging/tiledspotiflow/main'
+include { IMAGING_MERGEPEAKS as MERGEPEAKS              } from '../../../modules/sanger-cellgeni/imaging/mergepeaks/main'
+include { IMAGING_CONCATENATEWKTS as CONCATENATEWKTS    } from '../../../modules/sanger-cellgeni/imaging/concatenatewkts/main'
 
 
 workflow TILED_SPOTIFLOW {
@@ -30,5 +30,5 @@ workflow TILED_SPOTIFLOW {
 
     emit:
     spots_csv = CONCATENATEWKTS.out.concatenated_peaks
-    versions = ch_versions
+    versions  = ch_versions
 }
