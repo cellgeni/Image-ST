@@ -7,7 +7,7 @@
         "sanger-cellgeni": {
           "imaging/cellpose": {
             "branch": "develop",
-            "git_sha": "2107017ee52361c8a11c924e5669eaf4b6a49b22",
+            "git_sha": "63393c7696729b85d7003003119711b222da70f9",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/concatenatewkts": {
@@ -17,7 +17,7 @@
           },
           "imaging/deepcell": {
             "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/extractpeakprofile": {
@@ -27,17 +27,17 @@
           },
           "imaging/generatetiles": {
             "branch": "develop",
-            "git_sha": "786a78363e8e46721bc9a4a95111a83e5c3fec3c",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["tiled_segmentation", "tiled_spotiflow"]
           },
           "imaging/instanseg": {
             "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/mergeoutlines": {
             "branch": "develop",
-            "git_sha": "87187ee59e0d2cbb790bc1c46b28e79950aad43e",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/mergepeaks": {
@@ -57,12 +57,12 @@
           },
           "imaging/stardist": {
             "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/tiledspotiflow": {
             "branch": "develop",
-            "git_sha": "f89e05388f0315edb1b743b59cad740ccc054809",
+            "git_sha": "50e79f22ae0e06c981444547f2b0448bb53f9c59",
             "installed_by": ["tiled_spotiflow"]
           },
           "omero/importsegmentation": {
@@ -106,12 +106,12 @@
           },
           "tiled_segmentation": {
             "branch": "develop",
-            "git_sha": "362d941052ce681feadd891da300ada01b03a1cf",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["subworkflows"]
           },
           "tiled_spotiflow": {
             "branch": "develop",
-            "git_sha": "362d941052ce681feadd891da300ada01b03a1cf",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["subworkflows"]
           },
           "valis_registration": {

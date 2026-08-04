@@ -1,78 +1,77 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
 name: "imaging_cellpose"
-description: A wrapper of Cellpose: a generalist algorithm for cellular segmentation
+description: |
+    A wrapper of Cellpose: a generalist algorithm for cellular segmentation
 keywords:
-  - segmentation
-  - imaging
-  - image_analysis
-  - deep-learning
+    - segmentation
+    - imaging
+    - image_analysis
+    - deep-learning
 tools:
-  - "imaging":
-      description: "cellpose is an anatomical segmentation algorithm written in Python 3 by Carsen Stringer and Marius Pachitariu."
-      homepage: "https://www.cellpose.org/"
-      documentation: "https://cellpose.readthedocs.io/en/latest/"
-      tool_dev_url: "https://github.com/MouseLand/cellpose"
-      doi: "https://doi.org/10.1038/s41592-020-01018-x"
-      licence: ["BSD-3-Clause license"]
+    - "imaging":
+          description: "cellpose is an anatomical segmentation algorithm written in Python 3 by Carsen Stringer and Marius Pachitariu."
+          homepage: "https://www.cellpose.org/"
+          documentation: "https://cellpose.readthedocs.io/en/latest/"
+          tool_dev_url: "https://github.com/MouseLand/cellpose"
+          doi: "https://doi.org/10.1038/s41592-020-01018-x"
+          licence: ["BSD-3-Clause license"]
 
 input:
-  - meta:
-      type: map
-      description: |
-        Groovy Map containing sample information
-        e.g. `[ id:'test' ]`
+    - meta:
+          type: map
+          description: |
+              Groovy Map containing sample information
+              e.g. `[ id:'test' ]`
 
-  - x_min:
-      type: integer
-      description: x_min of the region of interest
+    - x_min:
+          type: integer
+          description: x_min of the region of interest
 
-  - x_max:
-      type: integer
-      description: x_max of the region of interest
+    - x_max:
+          type: integer
+          description: x_max of the region of interest
 
-  - y_min:
-      type: integer
-      description: y_min of the region of interest
+    - y_min:
+          type: integer
+          description: y_min of the region of interest
 
-  - y_max:
-      type: integer
-      description: y_max of the region of interest
+    - y_max:
+          type: integer
+          description: y_max of the region of interest
 
-  - imgs:
-      type: file
-      description: raw images for segmentation
-      pattern: "*.{tif,ome.tif,ome.tiff}"
+    - imgs:
+          type: file
+          description: raw images for segmentation
+          pattern: "*.{tif,ome.tif,ome.tiff}"
 
-  - cell_diameter:
-      type: integer
-      description: expected cell diameter in pixels
+    - cell_diameter:
+          type: integer
+          description: expected cell diameter in pixels
 
 output:
-  - meta:
-      type: map
-      description:
-        Groovy Map containing sample information
-        e.g. `[ id:'test' ]`
+    - meta:
+          type: map
+          description: Groovy Map containing sample information
+              e.g. `[ id:'test' ]`
 
-  - versions:
-      type: file
-      description: File containing software versions
-      pattern: "versions.yml"
+    - versions:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
 
-  - "${stem}/${stem}_cp_outlines.txt":
-      type: file
-      description:
-      pattern: "*.txt"
+    - "${stem}/${stem}_cp_outlines.txt":
+          type: file
+          description:
+          pattern: "*.txt"
 
-  - "${stem}/${stem}_cp_outlines.wkt":
-      type: file
-      description:
-      pattern: "*.wkt"
+    - "${stem}/${stem}_cp_outlines.wkt":
+          type: file
+          description:
+          pattern: "*.wkt"
 
-  - "${stem}/${stem}*png":
-      type: file
-      description:
-      pattern: "*.png"
+    - "${stem}/${stem}*png":
+          type: file
+          description:
+          pattern: "*.png"
 authors:
-  - "@BioinfoTongLI"
+    - "@BioinfoTongLI"

@@ -32,7 +32,6 @@ process IMAGING_MERGEOUTLINES {
     """
 
     stub:
-    def args = task.ext.args ?: ''
     prefix = task.ext.prefix ?: "${meta.id}_merged"
     """
     touch ${prefix}.geojson

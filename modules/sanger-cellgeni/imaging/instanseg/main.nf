@@ -38,7 +38,6 @@ process IMAGING_INSTANSEG {
     """
 
     stub:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}_${x_min}_${y_min}_${x_max}_${y_max}"
     output_name = "${prefix}_instanseg_outlines.wkt"
     """

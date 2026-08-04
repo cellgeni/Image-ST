@@ -1,8 +1,8 @@
-include { IMAGING_CELLPOSE as CELLPOSE } from '../../../modules/sanger-cellgeni/imaging/cellpose/main'
-include { IMAGING_STARDIST as STARDIST } from '../../../modules/sanger-cellgeni/imaging/stardist/main'
-include { IMAGING_INSTANSEG as INSTANSEG } from '../../../modules/sanger-cellgeni/imaging/instanseg/main'
-include { IMAGING_DEEPCELL as DEEPCELL } from '../../../modules/sanger-cellgeni/imaging/deepcell/main'
-include { IMAGING_MERGEOUTLINES as MERGEOUTLINES } from '../../../modules/sanger-cellgeni/imaging/mergeoutlines/main'
+include { IMAGING_CELLPOSE as CELLPOSE                  } from '../../../modules/sanger-cellgeni/imaging/cellpose/main'
+include { IMAGING_STARDIST as STARDIST                  } from '../../../modules/sanger-cellgeni/imaging/stardist/main'
+include { IMAGING_INSTANSEG as INSTANSEG                } from '../../../modules/sanger-cellgeni/imaging/instanseg/main'
+include { IMAGING_DEEPCELL as DEEPCELL                  } from '../../../modules/sanger-cellgeni/imaging/deepcell/main'
+include { IMAGING_MERGEOUTLINES as MERGEOUTLINES        } from '../../../modules/sanger-cellgeni/imaging/mergeoutlines/main'
 include { IMAGING_GENERATETILES as GENERATE_TILE_COORDS } from '../../../modules/sanger-cellgeni/imaging/generatetiles/main'
 
 
@@ -50,6 +50,6 @@ workflow TILED_SEGMENTATION {
     ch_versions = ch_versions.mix(MERGEOUTLINES.out.versions.first())
 
     emit:
-    geojson = MERGEOUTLINES.out.multipoly_geojsons // channel: [ val(meta), [ geojson ] ]
+    geojson  = MERGEOUTLINES.out.multipoly_geojsons // channel: [ val(meta), [ geojson ] ]
     versions = ch_versions // channel: [ versions.yml ]
 }
