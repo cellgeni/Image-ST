@@ -173,15 +173,15 @@ def main(
     count_matrix = spots.pivot_table(
         index="cell_id", columns=feature_col, aggfunc="size", fill_value=0
     )
-    # count_matrix = count_matrix.drop(count_matrix[count_matrix.index == 0].index)
+    count_matrix = count_matrix.drop(count_matrix[count_matrix.index == 0].index)
+    # Keep every cell, including those with no transcripts assigned (filled with 0 counts)
+    count_matrix = count_matrix.reindex(props_df["label"].values, fill_value=0)
     count_matrix["num_cells"] = np.max(lab_img)
     count_matrix["num_spots"] = spots.shape[0]
     count_matrix.to_csv(out_name.replace(".sdata", "_count_matrix.csv"))
 
-    props_df_intersect = props_df[props_df["label"].isin(count_matrix.index)]
-
     logger.info("Construct anndata object")
-    adata = anndata.AnnData(X=count_matrix.values, obs=props_df_intersect)
+    adata = anndata.AnnData(X=count_matrix.values, obs=props_df)
 
     REGION = "cell_labels"
     REGION_KEY = "region"
