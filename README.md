@@ -161,9 +161,9 @@ Example:
 
 ```groovy
 process {
-  withName: IMAGING_POSTCODE {
+  withName: POSTCODE_PREPROCESS {
     memory = { 20.GB * task.attempt }
-    ext.args = "--codebook_target_col Gene --codebook_code_col Code --coding_col_prefix 'Readout_*' --min_prob 0.95"
+    ext.args = "--codebook_targer_col Gene --codebook_code_col Code --coding_col_prefix 'Readout_*'"
   }
 
   withName: TO_SPATIALDATA {
@@ -244,8 +244,8 @@ Override module arguments in a Nextflow config file with `ext.args`:
 
 ```groovy
 process {
-  withName: IMAGING_POSTCODE {
-    ext.args = "--codebook_target_col Gene --codebook_code_col Code"
+  withName: POSTCODE_PREPROCESS {
+    ext.args = "--codebook_targer_col Gene --codebook_code_col Code"
   }
 }
 ```
