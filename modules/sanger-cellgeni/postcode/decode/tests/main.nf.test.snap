@@ -1,0 +1,156 @@
+{
+    "merfish - npy - 1": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "model_params_and_losses": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "timestamp": "2026-05-27T17:02:05.669650445",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    },
+    "merfish - csv": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "decoded_peaks": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "timestamp": "2025-07-11T15:19:07.13337354",
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.5"
+        }
+    },
+    "merfish - npy - 100000": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "merfish_100000"
+                        },
+                        "merfish_100000_model_params_and_losses.pt:md5,25daf2ba77123b2244bc1ba50a85cef5",
+                        "merfish_100000_starfish_codebook.json:md5,846c498cb0b5363e5fcfa44e94bf60b7"
+                    ]
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    "versions.yml:md5,8d1411ccbb09d994a2265b6d5f45b8c2"
+                ],
+                "model_params_and_losses": [
+                    [
+                        {
+                            "id": "merfish_100000"
+                        },
+                        "merfish_100000_model_params_and_losses.pt:md5,25daf2ba77123b2244bc1ba50a85cef5",
+                        "merfish_100000_starfish_codebook.json:md5,846c498cb0b5363e5fcfa44e94bf60b7"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,8d1411ccbb09d994a2265b6d5f45b8c2"
+                ]
+            }
+        ],
+        "timestamp": "2026-05-27T13:31:05.990704243",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    },
+    "merfish - npy - 5000": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "model_params_and_losses": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "timestamp": "2026-05-27T17:02:17.018083492",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    },
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "merfish_test"
+                        },
+                        "merfish_test_model_params_and_losses.pt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                        "merfish_1_starfish_codebook.json:md5,846c498cb0b5363e5fcfa44e94bf60b7"
+                    ]
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    "versions.yml:md5,8d1411ccbb09d994a2265b6d5f45b8c2"
+                ],
+                "model_params_and_losses": [
+                    [
+                        {
+                            "id": "merfish_test"
+                        },
+                        "merfish_test_model_params_and_losses.pt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                        "merfish_1_starfish_codebook.json:md5,846c498cb0b5363e5fcfa44e94bf60b7"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,8d1411ccbb09d994a2265b6d5f45b8c2"
+                ]
+            }
+        ],
+        "timestamp": "2026-05-27T13:31:17.300350967",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    }
+}

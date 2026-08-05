@@ -1,0 +1,69 @@
+name: "postcode_preprocess"
+description: Preprocess both profile to be decoded and the corresponding codebook for PoSTCode decoding
+keywords:
+  - spatial transcriptomics
+  - decoding
+  - codebook
+  - starfish
+tools:
+  - "postcode":
+      description: "Probabilistic image-based spatial transcriptomics decoder"
+      homepage: "https://github.com/gerstung-lab/postcode"
+      documentation: "https://github.com/gerstung-lab/postcode"
+      tool_dev_url: "https://github.com/gerstung-lab/postcode"
+      doi: "no DOI available"
+      licence: ["MIT"]
+      identifier: ""
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - profile:
+        type: file
+        description: Profile to be decoded in the [N, Channel, Round] shape.
+        pattern: "*.npy"
+
+    - tabular_codebook:
+        type: file
+        description: Codebook for decoding.
+        pattern: "*.{tsv,csv,xlsx}"
+
+    - readout_file:
+        type: file
+        description: File containing readout information.
+        pattern: "*.{tsv,csv}"
+    - R:
+        type: integer
+        description: Number of rounds in the experiment.
+
+output:
+  for_decoding:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - reformatted_profile:
+          type: file
+          description: reformatted profile file
+          pattern: "*.npy"
+
+      - starfish_codebook:
+          type: file
+          description: reformatted starfish file
+          pattern: "*.json"
+  versions:
+    - "versions.yml":
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+        ontologies:
+          - edam: "http://edamontology.org/format_3750" # YAML
+
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

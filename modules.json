@@ -70,6 +70,21 @@
             "git_sha": "a6f71f51bf4868888d90d9e14a18b6809e021b0a",
             "installed_by": ["modules"]
           },
+          "postcode/decode": {
+            "branch": "develop",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
+            "installed_by": ["postcode_decoding"]
+          },
+          "postcode/postprocess": {
+            "branch": "develop",
+            "git_sha": "b40f03eae0d258b78ef39a2c4cc94d8ca62323a2",
+            "installed_by": ["postcode_decoding"]
+          },
+          "postcode/preprocess": {
+            "branch": "develop",
+            "git_sha": "0c1be183e833966c237f99541a4d289130ff4a06",
+            "installed_by": ["postcode_decoding"]
+          },
           "spatial/generatevitessceconfig": {
             "branch": "develop",
             "git_sha": "3760eae3a82921a435a3a8feb9d3de41d057e91d",
@@ -102,6 +117,11 @@
           "microaligner_registration": {
             "branch": "develop",
             "git_sha": "9cd50754c83065e2c1e4632d73521b457e51901d",
+            "installed_by": ["subworkflows"]
+          },
+          "postcode_decoding": {
+            "branch": "develop",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["subworkflows"]
           },
           "tiled_segmentation": {

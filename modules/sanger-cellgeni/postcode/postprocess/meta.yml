@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "postcode_postprocess"
+description: Convert PoSTCode model outputs into decoded spot profiles
+keywords:
+  - spatial transcriptomics
+  - decoding
+  - postcode
+tools:
+  - "postcode":
+      description: "Probabilistic image-based spatial transcriptomics decoder"
+      homepage: "https://github.com/gerstung-lab/postcode"
+      documentation: "https://github.com/gerstung-lab/postcode"
+      tool_dev_url: "https://github.com/gerstung-lab/postcode"
+      doi: "no DOI available"
+      licence: [MIT]
+      identifier: ""
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - model_params_and_losses_path:
+        type: file
+        description: PoSTCode model parameters and losses file.
+        pattern: "*_model_params_and_losses.pt"
+    - starfish_codebook_path:
+        type: file
+        description: Starfish JSON codebook used for decoding.
+        pattern: "*.json"
+    - spot_loc_path:
+        type: file
+        description: Spot location table.
+        pattern: "*.{tsv,csv}"
+
+output:
+  decoded_profile:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "${decoded_profile}":
+          type: file
+          description: Decoded spot profile table.
+          pattern: "*.csv"
+  versions:
+    - "versions.yml":
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+        ontologies:
+          - edam: "http://edamontology.org/format_3750" # YAML
+
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"

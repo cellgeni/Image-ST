@@ -1,0 +1,95 @@
+nextflow_workflow {
+
+    name "Test Subworkflow POSTCODE_DECODING"
+    script "../main.nf"
+    workflow "POSTCODE_DECODING"
+    config "./nextflow.config"
+
+    tag "subworkflows"
+    tag "subworkflows_sangercellgeni"
+    tag "subworkflows/postcode_decoding"
+    tag "postcode_decoding"
+    tag "postcode"
+
+
+    test("postcode - npy - 1") {
+
+        when {
+            params {
+                postcodeprep_args = "--coding_col_prefix Readouts* --codebook_targer_col gene "
+                postcode_args = '--train_params {up_prc_to_remove:99.95}'
+            }
+            workflow {
+                """
+                input[0] = channel.from([[
+                    [ id:'single' ], // meta map
+                    file(params.modules_testdata_base_path + '/MERFISH/merfish_transcript_profile_1.npy', checkIfExists: true),
+                ]])
+                input[1] = channel.from([[
+                    [ id:'single' ],
+                    file(params.modules_testdata_base_path + '/MERFISH/codebook.csv', checkIfExists: true),
+                ]])
+                input[2] = channel.from([[
+                    [ id:'single' ],
+                    file(params.modules_testdata_base_path + '/MERFISH/readouts.csv', checkIfExists: true),
+                ]])
+                input[3] = channel.from([[
+                    [ id:'single' ], 6
+                ]])
+                input[4] = channel.from([[
+                    [ id:'single' ],
+                    file(params.modules_testdata_base_path + 'MERFISH/merfish_transcript_locations_1.csv', checkIfExists: true),
+                ]])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.failed },
+                { assert snapshot(workflow.out).match()}
+            )
+        }
+    }
+
+
+    test("postcode - npy - 100000") {
+
+        when {
+            params {
+                postcodeprep_args = "--coding_col_prefix Readouts* --codebook_targer_col gene "
+                postcode_args = '--train_params {up_prc_to_remove:99.95}'
+            }
+            workflow {
+                """
+                input[0] = channel.from([[
+                    [ id:'10000' ], // meta map
+                    file(params.modules_testdata_base_path + '/MERFISH/merfish_transcript_profile_100000.npy', checkIfExists: true),
+                ]])
+                input[1] = channel.from([[
+                    [ id:'10000' ],
+                    file(params.modules_testdata_base_path + '/MERFISH/codebook.csv', checkIfExists: true),
+                ]])
+                input[2] = channel.from([[
+                    [ id:'10000' ],
+                    file(params.modules_testdata_base_path + '/MERFISH/readouts.csv', checkIfExists: true),
+                ]])
+                input[3] = channel.from([[
+                    [ id:'10000' ], 6
+                ]])
+                input[4] = channel.from([[
+                    [ id:'10000' ],
+                    file(params.modules_testdata_base_path + 'MERFISH/merfish_transcript_locations_100000.csv', checkIfExists: true),
+                ]])
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(workflow.out).match()}
+            )
+        }
+    }
+}

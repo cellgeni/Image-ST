@@ -1,0 +1,80 @@
+---
+name: "postcode_decode"
+description: Decode spatial transcriptomics profiles with PoSTCode
+keywords:
+  - spatial transcriptomics
+  - decoding
+  - postcode
+tools:
+  - "postcode":
+      description: "Probabilistic image-based spatial transcriptomics decoder"
+      homepage: "https://github.com/gerstung-lab/postcode"
+      documentation: "https://github.com/gerstung-lab/postcode"
+      tool_dev_url: "https://github.com/gerstung-lab/postcode"
+      doi: "no DOI available"
+      licence: [MIT]
+      identifier: ""
+
+input:
+  # Only when we have meta
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1', single_end:false ]`
+
+    - profile:
+        type: file
+        description: |
+          Reformatted spot profiles to decode.
+        pattern: "*.npy"
+
+    - starfish_codebook:
+        type: file
+        description: |
+          Starfish JSON codebook for decoding.
+        pattern: "*.json"
+
+    - spot_loc:
+        type: file
+        description: |
+          Spot location table.
+        pattern: "*.{tsv,csv}"
+
+output:
+  model_params_and_losses:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - "${out_name}":
+          type: file
+          description: |
+            Trained PoSTCode model parameters and losses.
+          pattern: "*_model_params_and_losses.pt"
+      - starfish_codebook:
+          type: file
+          description: Starfish JSON codebook passed through from input.
+          pattern: "*.json"
+  versions:
+    - "versions.yml":
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+  pickle:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1' ]`
+      - pickle:
+          type: file
+          description: |
+            Optional decode output parameters.
+          pattern: "*decode_out_parameters.pickle"
+
+authors:
+  - "@BioinfoTongLI"
+maintainers:
+  - "@BioinfoTongLI"
