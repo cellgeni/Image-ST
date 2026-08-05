@@ -50,11 +50,6 @@
             "git_sha": "7d164bce3c2e008dbd995e121f0abde8cb6f6c03",
             "installed_by": ["microaligner_registration"]
           },
-          "imaging/postcode": {
-            "branch": "main",
-            "git_sha": "16d631eb9cd8180d6381c609374fbf3f52f4dfda",
-            "installed_by": ["modules"]
-          },
           "imaging/stardist": {
             "branch": "develop",
             "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
