@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "imaging_concatenatewkts"
 description: Concatenate multiple WKT files into one in a brutal way
 keywords:

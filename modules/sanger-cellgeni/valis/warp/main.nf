@@ -10,9 +10,12 @@ process VALIS_WARP {
     containerOptions {
         if (workflow.containerEngine == 'singularity') {
             def bf = new File("${task.workDir}/bf_formats.txt")
-            if (!bf.exists()) bf.createNewFile()
+            if (!bf.exists()) {
+                bf.createNewFile()
+            }
             "--bind ${bf.absolutePath}:/env/lib/python3.10/site-packages/valis/data/bf_formats.txt"
-        } else {
+        }
+        else {
             ''
         }
     }
@@ -30,10 +33,12 @@ process VALIS_WARP {
     task.ext.when == null || task.ext.when
 
     script:
-    def args   = task.ext.args ?: ''
+    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     out_dir = "${prefix}_valis_warp"
     """
+    export VIPS_CONCURRENCY=1
+
     mkdir -p ${out_dir}
     valis-cli warp \\
         ${results_dir}/${prefix}/data/${prefix}_registrar.pickle \\

@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
 name: "microaligner_registration"
 description: Register microscopy images using two-step microaligner
 keywords:

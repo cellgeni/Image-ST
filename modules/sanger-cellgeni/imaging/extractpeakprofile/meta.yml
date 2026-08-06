@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "imaging_extractpeakprofile"
 ## TODO nf-core: Add a description of the module and list keywords
 description: Extract max intensity peak profile from an image stack with a file of peak coordinates

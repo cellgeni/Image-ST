@@ -22,7 +22,8 @@ def decode(
     spot_profile_p: str,
     starfish_codebook_p: str,
     output_path: str,
-    train_params: str = {},
+    up_prc_to_remove: float = 99.95,
+    num_iter: int = 60,
     zero_threshold=0.5,
 ) -> pd.DataFrame:
     """
@@ -38,6 +39,11 @@ def decode(
         min_prob: [0,1] - value of minimum allowed probability of decoded spot
             Defaults to True.
         R (int): Number of rounds. Defaults to None.
+        up_prc_to_remove: spots with any feature above this percentile (per
+            feature, across all spots) are dropped before training. Pass 100 to
+            disable this filtering entirely (e.g. for a small/pre-cleaned
+            profile where the percentile itself may be unstable).
+        num_iter: number of SVI training iterations.
 
     Returns:
         pd.DataFrame: A pandas DataFrame containing the decoded spots and their locations.
@@ -47,7 +53,12 @@ def decode(
     # gene_list = np.array(starfish_book.target)
     # K = len(starfish_book.target)
 
-    spot_profile = np.load(spot_profile_p).astype(np.float16)
+    # float16's max finite value (~65504) is below raw 16-bit intensity range
+    # (up to 65535) - any saturated pixel would silently overflow to inf here
+    # and poison the log-normalization downstream into NaN. torch_format()
+    # already upcasts to float32 before training, so keep full precision until
+    # then rather than truncating range for no benefit.
+    spot_profile = np.load(spot_profile_p).astype(np.float32)
     spot_locations = pd.read_csv(spot_locations_p)
     assert spot_locations.shape[0] == spot_profile.shape[0], (
         "Number of spots in spot_locations and spot_profile do not match"
@@ -72,7 +83,11 @@ def decode(
 
     logger.info(spot_profile)
     to_serialize_params = train_and_save_model(
-        spot_profile, codebook_arr, print_training_progress=False, **train_params
+        spot_profile,
+        codebook_arr,
+        print_training_progress=False,
+        up_prc_to_remove=up_prc_to_remove,
+        num_iter=num_iter,
     )
 
     # Serialize parameters, losses, and data_norm to disk

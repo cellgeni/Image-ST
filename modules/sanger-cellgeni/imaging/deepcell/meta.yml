@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "imaging_deepcell"
 description: This module runs deepcell on a crop of an image
 keywords:

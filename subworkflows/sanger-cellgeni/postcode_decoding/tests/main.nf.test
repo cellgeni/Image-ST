@@ -24,20 +24,9 @@ nextflow_workflow {
                 input[0] = channel.from([[
                     [ id:'single' ], // meta map
                     file(params.modules_testdata_base_path + '/MERFISH/merfish_transcript_profile_1.npy', checkIfExists: true),
-                ]])
-                input[1] = channel.from([[
-                    [ id:'single' ],
                     file(params.modules_testdata_base_path + '/MERFISH/codebook.csv', checkIfExists: true),
-                ]])
-                input[2] = channel.from([[
-                    [ id:'single' ],
                     file(params.modules_testdata_base_path + '/MERFISH/readouts.csv', checkIfExists: true),
-                ]])
-                input[3] = channel.from([[
-                    [ id:'single' ], 6
-                ]])
-                input[4] = channel.from([[
-                    [ id:'single' ],
+                    6,
                     file(params.modules_testdata_base_path + 'MERFISH/merfish_transcript_locations_1.csv', checkIfExists: true),
                 ]])
                 """
@@ -65,20 +54,9 @@ nextflow_workflow {
                 input[0] = channel.from([[
                     [ id:'10000' ], // meta map
                     file(params.modules_testdata_base_path + '/MERFISH/merfish_transcript_profile_100000.npy', checkIfExists: true),
-                ]])
-                input[1] = channel.from([[
-                    [ id:'10000' ],
                     file(params.modules_testdata_base_path + '/MERFISH/codebook.csv', checkIfExists: true),
-                ]])
-                input[2] = channel.from([[
-                    [ id:'10000' ],
                     file(params.modules_testdata_base_path + '/MERFISH/readouts.csv', checkIfExists: true),
-                ]])
-                input[3] = channel.from([[
-                    [ id:'10000' ], 6
-                ]])
-                input[4] = channel.from([[
-                    [ id:'10000' ],
+                    6,
                     file(params.modules_testdata_base_path + 'MERFISH/merfish_transcript_locations_100000.csv', checkIfExists: true),
                 ]])
                 """

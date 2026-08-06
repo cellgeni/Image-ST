@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "spatialdata_exportomerotable"
 description: Export SpatialData shapes and transcript points to OMERO-compatible CSV tables.
 keywords:

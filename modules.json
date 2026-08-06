@@ -12,12 +12,12 @@
           },
           "imaging/concatenatewkts": {
             "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+            "git_sha": "7d85aad8ed4d9463e079644c9accbdc429bf86d6",
             "installed_by": ["tiled_spotiflow"]
           },
           "imaging/deepcell": {
             "branch": "develop",
-            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
+            "git_sha": "7d85aad8ed4d9463e079644c9accbdc429bf86d6",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/extractpeakprofile": {
@@ -27,32 +27,32 @@
           },
           "imaging/generatetiles": {
             "branch": "develop",
-            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
+            "git_sha": "7d85aad8ed4d9463e079644c9accbdc429bf86d6",
             "installed_by": ["tiled_segmentation", "tiled_spotiflow"]
           },
           "imaging/instanseg": {
             "branch": "develop",
-            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
+            "git_sha": "7d85aad8ed4d9463e079644c9accbdc429bf86d6",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/mergeoutlines": {
             "branch": "develop",
-            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
+            "git_sha": "7d85aad8ed4d9463e079644c9accbdc429bf86d6",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/mergepeaks": {
             "branch": "develop",
-            "git_sha": "45c25ab87fd5a3d2243b20a1e06fc34835c74a59",
+            "git_sha": "7d85aad8ed4d9463e079644c9accbdc429bf86d6",
             "installed_by": ["tiled_spotiflow"]
           },
           "imaging/microaligner": {
             "branch": "develop",
-            "git_sha": "7d164bce3c2e008dbd995e121f0abde8cb6f6c03",
+            "git_sha": "7d85aad8ed4d9463e079644c9accbdc429bf86d6",
             "installed_by": ["microaligner_registration"]
           },
           "imaging/stardist": {
             "branch": "develop",
-            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
+            "git_sha": "7d85aad8ed4d9463e079644c9accbdc429bf86d6",
             "installed_by": ["tiled_segmentation"]
           },
           "imaging/tiledspotiflow": {
@@ -62,17 +62,17 @@
           },
           "omero/importsegmentation": {
             "branch": "develop",
-            "git_sha": "a6f71f51bf4868888d90d9e14a18b6809e021b0a",
+            "git_sha": "7d85aad8ed4d9463e079644c9accbdc429bf86d6",
             "installed_by": ["modules"]
           },
           "postcode/decode": {
             "branch": "develop",
-            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
+            "git_sha": "42d1dc4c2dcc9ff656e242eb98f78e934f0ad57f",
             "installed_by": ["postcode_decoding"]
           },
           "postcode/postprocess": {
             "branch": "develop",
-            "git_sha": "b40f03eae0d258b78ef39a2c4cc94d8ca62323a2",
+            "git_sha": "7d85aad8ed4d9463e079644c9accbdc429bf86d6",
             "installed_by": ["postcode_decoding"]
           },
           "postcode/preprocess": {
@@ -92,17 +92,17 @@
           },
           "valis/merge": {
             "branch": "develop",
-            "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["valis_registration"]
           },
           "valis/register": {
             "branch": "develop",
-            "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["valis_registration"]
           },
           "valis/warp": {
             "branch": "develop",
-            "git_sha": "cfe0dc0c4679f7dcd4ba006fb40cfc6bb2826db6",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["valis_registration"]
           }
         }
@@ -111,27 +111,27 @@
         "sanger-cellgeni": {
           "microaligner_registration": {
             "branch": "develop",
-            "git_sha": "9cd50754c83065e2c1e4632d73521b457e51901d",
+            "git_sha": "c583bb87c3e105e6a85d91bf2ed0016823a79c84",
             "installed_by": ["subworkflows"]
           },
           "postcode_decoding": {
             "branch": "develop",
-            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
+            "git_sha": "993789259957817699898bec66fd834853c1a926",
             "installed_by": ["subworkflows"]
           },
           "tiled_segmentation": {
             "branch": "develop",
-            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
+            "git_sha": "c583bb87c3e105e6a85d91bf2ed0016823a79c84",
             "installed_by": ["subworkflows"]
           },
           "tiled_spotiflow": {
             "branch": "develop",
-            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
+            "git_sha": "c583bb87c3e105e6a85d91bf2ed0016823a79c84",
             "installed_by": ["subworkflows"]
           },
           "valis_registration": {
             "branch": "develop",
-            "git_sha": "b3909d5c156bca66ab7577e10d8c0961413ad5a8",
+            "git_sha": "82b79854f415cca302af34fd470853d1ccef878e",
             "installed_by": ["subworkflows"]
           }
         }

@@ -1,6 +1,6 @@
 include { VALIS_REGISTER } from '../../../modules/sanger-cellgeni/valis/register/main'
-include { VALIS_WARP } from '../../../modules/sanger-cellgeni/valis/warp/main'
-include { VALIS_MERGE } from '../../../modules/sanger-cellgeni/valis/merge/main'
+include { VALIS_WARP     } from '../../../modules/sanger-cellgeni/valis/warp/main'
+include { VALIS_MERGE    } from '../../../modules/sanger-cellgeni/valis/merge/main'
 
 workflow VALIS_REGISTRATION {
     take:
@@ -35,10 +35,10 @@ workflow VALIS_REGISTRATION {
     ch_versions = ch_versions.mix(VALIS_MERGE.out.versions.first())
 
     emit:
-    results_dir = VALIS_REGISTER.out.results_dir // channel: [ val(meta), path(results_dir) ]
-    registrar = VALIS_REGISTER.out.registrar // channel: [ val(meta), path(*_registrar.pickle) ]
-    transforms = VALIS_REGISTER.out.transforms // channel: [ val(meta), path(*_transforms.json) ]
+    results_dir       = VALIS_REGISTER.out.results_dir // channel: [ val(meta), path(results_dir) ]
+    registrar         = VALIS_REGISTER.out.registrar // channel: [ val(meta), path(*_registrar.pickle) ]
+    transforms        = VALIS_REGISTER.out.transforms // channel: [ val(meta), path(*_transforms.json) ]
     registered_slides = VALIS_WARP.out.registered_slides // channel: [ val(meta), path(warp_dir) ]
-    merged = VALIS_MERGE.out.merged // channel: [ val(meta), path(*_merged.ome.tiff) ]
-    versions = ch_versions // channel: [ versions ]
+    merged            = VALIS_MERGE.out.merged // channel: [ val(meta), path(*_merged.ome.tiff) ]
+    versions          = ch_versions // channel: [ versions ]
 }

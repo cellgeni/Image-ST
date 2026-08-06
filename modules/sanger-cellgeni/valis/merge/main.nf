@@ -10,9 +10,12 @@ process VALIS_MERGE {
     containerOptions {
         if (workflow.containerEngine == 'singularity') {
             def bf = new File("${task.workDir}/bf_formats.txt")
-            if (!bf.exists()) bf.createNewFile()
+            if (!bf.exists()) {
+                bf.createNewFile()
+            }
             "--bind ${bf.absolutePath}:/env/lib/python3.10/site-packages/valis/data/bf_formats.txt"
-        } else {
+        }
+        else {
             ''
         }
     }
@@ -30,10 +33,12 @@ process VALIS_MERGE {
     task.ext.when == null || task.ext.when
 
     script:
-    def args               = task.ext.args ?: ''
-    prefix                 = task.ext.prefix ?: "${meta.id}"
-    def channel_names_arg  = (channel_names_json.name && channel_names_json.name != 'NO_FILE') ? "--channel-names-json ${channel_names_json}" : ''
+    def args = task.ext.args ?: ''
+    prefix = task.ext.prefix ?: "${meta.id}"
+    def channel_names_arg = (channel_names_json.name && channel_names_json.name != 'NO_FILE') ? "--channel-names-json ${channel_names_json}" : ''
     """
+    export VIPS_CONCURRENCY=1
+
     valis-cli merge \\
         ${results_dir}/${prefix}/data/${prefix}_registrar.pickle \\
         ${prefix}_merged.ome.tiff \\
