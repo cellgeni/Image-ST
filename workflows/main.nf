@@ -5,7 +5,7 @@ include { MICRO_ALIGNER_REGISTRATION                         } from '../subworkf
 include { TILED_SEGMENTATION                                 } from '../subworkflows/sanger-cellgeni/tiled_segmentation/main'
 include { TILED_SPOTIFLOW                                    } from '../subworkflows/sanger-cellgeni/tiled_spotiflow/main'
 include { IMAGING_EXTRACTPEAKPROFILE as EXTRACT_PEAK_PROFILE } from '../modules/sanger-cellgeni/imaging/extractpeakprofile/main'
-include { IMAGING_POSTCODE as POSTCODE                       } from '../modules/sanger-cellgeni/imaging/postcode/main'
+include { POSTCODE_DECODING                                  } from '../subworkflows/sanger-cellgeni/postcode_decoding/main'
 include { TO_SPATIALDATA                                     } from '../modules/local/to_spatialdata'
 include { SPATIAL_GENERATEVITESSCECONFIG                     } from '../modules/sanger-cellgeni/spatial/generatevitessceconfig/main'
 include { SPATIALDATA_EXPORTOMEROTABLE                       } from '../modules/sanger-cellgeni/spatialdata/exportomerotable/main'
@@ -94,10 +94,14 @@ workflow EXTRACT_AND_DECODE {
                 file(readouts, checkIfExists: false, type: 'file'),
             ]
         }
-    POSTCODE(EXTRACT_PEAK_PROFILE.out.peak_profile.join(codebook).join(n_cycle))
+    ch_postcode_input = EXTRACT_PEAK_PROFILE.out.peak_profile
+        .join(codebook)
+        .join(n_cycle)
+        .map { meta, profile, spot_loc, tabular_codebook, readout_file, R -> [meta, profile, tabular_codebook, readout_file, R, spot_loc] }
+    POSTCODE_DECODING(ch_postcode_input)
     // Contrsuct the spatial data object
     TO_SPATIALDATA(
-        POSTCODE.out.decoded_peaks.combine(TILED_SEGMENTATION.out.geojson, by: 0).combine(image_stack, by: 0)
+        POSTCODE_DECODING.out.decoded_profiles.combine(TILED_SEGMENTATION.out.geojson, by: 0).combine(image_stack, by: 0)
     )
     SPATIALDATA_EXPORTOMEROTABLE(TO_SPATIALDATA.out.spatialdata)
     if (params.importsegmentation) {
