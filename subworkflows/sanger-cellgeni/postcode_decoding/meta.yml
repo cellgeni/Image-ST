@@ -10,35 +10,17 @@ components:
   - postcode/decode
   - postcode/postprocess
 input:
-  - ch_profile:
+  - ch_input:
       type: file
       description: |
-        The input channel containing the spot/cell profile files
-        Structure: [ val(meta), path(profile) ]
-      pattern: "*.npy"
-  - ch_tabular_codebook:
-      type: file
-      description: |
-        The codebook in a tabular format
-        Structure: [ val(meta), path(tab_codebook) ]
-      pattern: "*.{csv/tsv/xlsx}"
-  - ch_readout_file:
-      type: file
-      description: |
-        The input channel containing the readout file for MERFISH-like data
-        Structure: [ val(meta), path(readout) ]
-      pattern: "*.tsv"
-  - ch_R:
-      type: int
-      description: |
-        The number of imaging round for the profile
-        Structure: [ val(meta), 6 ]
-  - ch_loc:
-      type: file
-      description: |
-        The cell/pixel/spot locatisable tsv file 
-        Structure: [ val(meta), path(localisation) ]
-      pattern: "*.{tsv/csv}"
+        The input channel containing, per entry, everything needed to preprocess,
+        decode and postprocess one profile. Bundling all of these into a single
+        tuple (rather than joining separate per-argument channels by meta inside
+        the subworkflow) lets the caller decide how to pair a shared resource
+        (e.g. a single codebook reused for every profile) with each profile,
+        instead of silently dropping items that don't share an identical meta.
+        Structure: [ val(meta), path(profile), path(tab_codebook), path(readout), val(R), path(localisation) ]
+      pattern: "*.{npy,csv,tsv,xlsx}"
 
 output:
   - decoding_result:

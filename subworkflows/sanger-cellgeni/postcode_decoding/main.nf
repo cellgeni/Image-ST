@@ -4,32 +4,19 @@ include { POSTCODE_POSTPROCESS } from '../../../modules/sanger-cellgeni/postcode
 
 workflow POSTCODE_DECODING {
     take:
-    ch_profile // channel: [ val(meta), [ profile ] ]
-    ch_tabular_codebook // channel: [ val(meta), [ tabular_codebook ] ]
-    ch_readout_file // channel: [ val(meta), [ readout_file ] ]
-    ch_R // channel: [ val(meta), [ R ] ]
-    ch_loc // channel: [ val(meta), [ spot_loc ] ]
+    ch_input // channel: [ val(meta), path(profile), path(tabular_codebook), path(readout_file), val(R), path(spot_loc) ]
 
     main:
 
     def ch_versions = channel.empty()
 
-    def for_decoding = ch_profile
-        .combine(
-            ch_tabular_codebook,
-            by: 0
-        )
-        .combine(
-            ch_readout_file,
-            by: 0
-        )
-        .combine(ch_R, by: 0)
+    def ch_for_preprocess = ch_input
+        .map { meta, profile, tabular_codebook, readout_file, R, _spot_loc -> [ meta, profile, tabular_codebook, readout_file, R ] }
+    def ch_loc = ch_input
+        .map { meta, _profile, _tabular_codebook, _readout_file, _R, spot_loc -> [ meta, spot_loc ] }
 
-    // for_decoding.view()
-
-    POSTCODE_PREPROCESS(for_decoding)
+    POSTCODE_PREPROCESS(ch_for_preprocess)
     ch_versions = ch_versions.mix(POSTCODE_PREPROCESS.out.versions.first())
-    // POSTCODE_PREPROCESS.out.for_decoding.combine(ch_loc, by: 0).view()
 
     POSTCODE_DECODE(POSTCODE_PREPROCESS.out.for_decoding.combine(ch_loc, by: 0))
     ch_versions = ch_versions.mix(POSTCODE_DECODE.out.versions.first())
